@@ -452,6 +452,94 @@ export const HIGH_RISK_PRIORITY_ZONES = [
     porePressureKpa: 165.0,
     antecedentRain10d: 145.0,
     recommendedAction: "One-Lane Restriction & PWD Patrol"
+  },
+  {
+    id: "HRZ-MNP-06",
+    name: "Tupul Railway Yard Shear Slope (NH-37 Noney)",
+    zoneId: "manipur",
+    disasterPossibilityScore: 0.95,
+    status: "CRITICAL_EVACUATION",
+    state: "Manipur",
+    district: "Noney",
+    center: [24.78, 93.62],
+    polygonCoords: [
+      [24.79, 93.60],
+      [24.80, 93.64],
+      [24.76, 93.65],
+      [24.75, 93.61]
+    ],
+    populationAtRisk: 9800,
+    primaryHazard: "Debris Flow & Rockfill Sinking",
+    displacementRate: "14.5 mm/hr",
+    porePressureKpa: 255.8,
+    antecedentRain10d: 260.0,
+    recommendedAction: "Camp Evacuation & Railway Corridor Halt"
+  },
+  {
+    id: "HRZ-ARN-07",
+    name: "Sela Pass North Portal Cut (NH-13 Tawang)",
+    zoneId: "arunachal",
+    disasterPossibilityScore: 0.91,
+    status: "CRITICAL_WARNING",
+    state: "Arunachal Pradesh",
+    district: "Tawang",
+    center: [27.58, 91.86],
+    polygonCoords: [
+      [27.60, 91.84],
+      [27.61, 91.88],
+      [27.56, 91.89],
+      [27.55, 91.85]
+    ],
+    populationAtRisk: 7400,
+    primaryHazard: "Glacial Thaw & Alpine Rockslide",
+    displacementRate: "6.2 mm/hr",
+    porePressureKpa: 215.0,
+    antecedentRain10d: 210.0,
+    recommendedAction: "Pre-position BRO Heavy Excavators"
+  },
+  {
+    id: "HRZ-ASM-08",
+    name: "Jatinga Valley Slip (Haflong Hill Section)",
+    zoneId: "assam",
+    disasterPossibilityScore: 0.87,
+    status: "HIGH_ALERT",
+    state: "Assam",
+    district: "Dima Hasao",
+    center: [25.17, 93.02],
+    polygonCoords: [
+      [25.19, 93.00],
+      [25.20, 93.04],
+      [25.15, 93.05],
+      [25.14, 93.01]
+    ],
+    populationAtRisk: 12500,
+    primaryHazard: "Soil Liquefaction & Embankment Slip",
+    displacementRate: "7.8 mm/hr",
+    porePressureKpa: 195.4,
+    antecedentRain10d: 190.0,
+    recommendedAction: "Train Speed Restriction & Slope Drain Clearance"
+  },
+  {
+    id: "HRZ-TRP-09",
+    name: "Vanghmun Ridge Slip (Jampui Hills)",
+    zoneId: "tripura",
+    disasterPossibilityScore: 0.79,
+    status: "HIGH_ALERT",
+    state: "Tripura",
+    district: "North Tripura",
+    center: [23.95, 92.28],
+    polygonCoords: [
+      [23.97, 92.26],
+      [23.98, 92.30],
+      [23.93, 92.31],
+      [23.92, 92.27]
+    ],
+    populationAtRisk: 4800,
+    primaryHazard: "Sandstone Crest Slump",
+    displacementRate: "2.8 mm/hr",
+    porePressureKpa: 122.0,
+    antecedentRain10d: 120.0,
+    recommendedAction: "Watch Patrol & Retaining Wall Anchor"
   }
 ];
 
@@ -488,34 +576,96 @@ export const MONITORING_ZONES = [
     }
   },
   {
-    id: "gangtok",
-    name: "Gangtok & East Sikkim Corridor",
-    state: "Sikkim",
-    district: "East Sikkim",
-    center: [27.3389, 88.6065],
+    id: "arunachal",
+    name: "Tawang & Sela Pass Slope Corridor",
+    state: "Arunachal Pradesh",
+    district: "Tawang / West Kameng",
+    center: [27.58, 91.86],
     zoom: 12,
     kpis: {
-      criticalZonesCount: "18 / 48",
-      criticalZonesPct: 37.5,
-      criticalZonesTrend: "+4.2% (24h)",
-      roadMonitoredKm: 142,
-      roadBlockedPct: 18.5,
-      roadBlockedKm: 26.2,
-      rain24h: 142.8,
-      rainStatus: "Monsoonal Shear Zone Trigger",
-      rainAlertLevel: "amber",
-      dispatchCount: "18 / 32",
-      dispatchPct: 56.2,
-      sdrfTeamsDeployed: 4
+      criticalZonesCount: "16 / 38",
+      criticalZonesPct: 42.1,
+      criticalZonesTrend: "+3.8% (24h)",
+      roadMonitoredKm: 165,
+      roadBlockedPct: 28.0,
+      roadBlockedKm: 46.2,
+      rain24h: 185.0,
+      rainStatus: "Glacial Melt & Alpine Storm Surge",
+      rainAlertLevel: "red",
+      dispatchCount: "14 / 22",
+      dispatchPct: 63.6,
+      sdrfTeamsDeployed: 5
     },
     summaryStats: {
-      weeklyRiskLevel: "High / Watch",
-      peakWeeklyProb: 0.78,
+      weeklyRiskLevel: "Critical / Watch",
+      peakWeeklyProb: 0.91,
+      peakWeeklyDate: "2026-08-25",
+      historicalMaxProb: 0.95,
+      historicalMaxDate: "2022-07-08 (Sela Slide)",
+      porePressureKpa: 215.0,
+      volumetricMoisturePct: 82.0
+    }
+  },
+  {
+    id: "assam",
+    name: "Dima Hasao Haflong Hill Corridor",
+    state: "Assam",
+    district: "Dima Hasao",
+    center: [25.17, 93.02],
+    zoom: 12,
+    kpis: {
+      criticalZonesCount: "19 / 44",
+      criticalZonesPct: 43.1,
+      criticalZonesTrend: "+5.2% (24h)",
+      roadMonitoredKm: 178,
+      roadBlockedPct: 32.5,
+      roadBlockedKm: 57.8,
+      rain24h: 168.4,
+      rainStatus: "Heavy Monsoonal Downpour Active",
+      rainAlertLevel: "red",
+      dispatchCount: "21 / 30",
+      dispatchPct: 70.0,
+      sdrfTeamsDeployed: 7
+    },
+    summaryStats: {
+      weeklyRiskLevel: "High / Critical",
+      peakWeeklyProb: 0.87,
+      peakWeeklyDate: "2026-08-24",
+      historicalMaxProb: 0.97,
+      historicalMaxDate: "2022-05-18 (Haflong Disaster)",
+      porePressureKpa: 195.4,
+      volumetricMoisturePct: 86.2
+    }
+  },
+  {
+    id: "manipur",
+    name: "Noney Tupul Railway Shear Corridor",
+    state: "Manipur",
+    district: "Noney / Imphal West",
+    center: [24.78, 93.62],
+    zoom: 12,
+    kpis: {
+      criticalZonesCount: "21 / 36",
+      criticalZonesPct: 58.3,
+      criticalZonesTrend: "+7.4% (24h)",
+      roadMonitoredKm: 130,
+      roadBlockedPct: 45.0,
+      roadBlockedKm: 58.5,
+      rain24h: 210.5,
+      rainStatus: "Ijei River Surge & Slope Liquefaction",
+      rainAlertLevel: "red",
+      dispatchCount: "26 / 32",
+      dispatchPct: 81.2,
+      sdrfTeamsDeployed: 9
+    },
+    summaryStats: {
+      weeklyRiskLevel: "Critical / Evacuate",
+      peakWeeklyProb: 0.95,
       peakWeeklyDate: "2026-08-26",
-      historicalMaxProb: 0.94,
-      historicalMaxDate: "2023-10-04 (Teesta Flood Event)",
-      porePressureKpa: 184.5,
-      volumetricMoisturePct: 76.2
+      historicalMaxProb: 0.99,
+      historicalMaxDate: "2022-06-30 (Tupul Railway Debris Avalanche)",
+      porePressureKpa: 255.8,
+      volumetricMoisturePct: 92.4
     }
   },
   {
@@ -551,9 +701,9 @@ export const MONITORING_ZONES = [
   },
   {
     id: "champhai",
-    name: "Champhai - Zokhawthar Border Slope",
+    name: "Aizawl & Champhai - Zokhawthar Border Slope",
     state: "Mizoram",
-    district: "Champhai",
+    district: "Champhai / Aizawl",
     center: [23.456, 93.328],
     zoom: 12,
     kpis: {
@@ -581,42 +731,11 @@ export const MONITORING_ZONES = [
     }
   },
   {
-    id: "kalimpong",
-    name: "Kalimpong - NH-10 Teesta Valley Corridor",
-    state: "West Bengal / Sikkim Border",
-    district: "Kalimpong",
-    center: [27.06, 88.47],
-    zoom: 12,
-    kpis: {
-      criticalZonesCount: "22 / 38",
-      criticalZonesPct: 57.8,
-      criticalZonesTrend: "+8.5% (24h)",
-      roadMonitoredKm: 110,
-      roadBlockedPct: 41.2,
-      roadBlockedKm: 45.3,
-      rain24h: 175.2,
-      rainStatus: "Teesta Dam Overflow & Active Seepage",
-      rainAlertLevel: "red",
-      dispatchCount: "15 / 35",
-      dispatchPct: 42.8,
-      sdrfTeamsDeployed: 8
-    },
-    summaryStats: {
-      weeklyRiskLevel: "Critical / Evacuate",
-      peakWeeklyProb: 0.93,
-      peakWeeklyDate: "2026-08-24",
-      historicalMaxProb: 0.98,
-      historicalMaxDate: "2023-10-04 (Glacial Lake Outburst)",
-      porePressureKpa: 245.8,
-      volumetricMoisturePct: 91.0
-    }
-  },
-  {
     id: "kohima",
     name: "Kohima Ridge & NH-29 Bypass Corridor",
     state: "Nagaland",
     district: "Kohima",
-    center: [25.6747, 94.11,],
+    center: [25.6747, 94.11],
     zoom: 12,
     kpis: {
       criticalZonesCount: "12 / 35",
@@ -640,6 +759,68 @@ export const MONITORING_ZONES = [
       historicalMaxDate: "2018-08-04 (Phesama Sinking Zone)",
       porePressureKpa: 132.4,
       volumetricMoisturePct: 64.5
+    }
+  },
+  {
+    id: "gangtok",
+    name: "Gangtok & East/North Sikkim Teesta Corridor",
+    state: "Sikkim",
+    district: "East Sikkim / North Sikkim",
+    center: [27.3389, 88.6065],
+    zoom: 12,
+    kpis: {
+      criticalZonesCount: "18 / 48",
+      criticalZonesPct: 37.5,
+      criticalZonesTrend: "+4.2% (24h)",
+      roadMonitoredKm: 142,
+      roadBlockedPct: 18.5,
+      roadBlockedKm: 26.2,
+      rain24h: 142.8,
+      rainStatus: "Monsoonal Shear Zone Trigger",
+      rainAlertLevel: "amber",
+      dispatchCount: "18 / 32",
+      dispatchPct: 56.2,
+      sdrfTeamsDeployed: 4
+    },
+    summaryStats: {
+      weeklyRiskLevel: "High / Watch",
+      peakWeeklyProb: 0.78,
+      peakWeeklyDate: "2026-08-26",
+      historicalMaxProb: 0.94,
+      historicalMaxDate: "2023-10-04 (Teesta Flood Event)",
+      porePressureKpa: 184.5,
+      volumetricMoisturePct: 76.2
+    }
+  },
+  {
+    id: "tripura",
+    name: "Jampui Hills & Dharmanagar Ridge Corridor",
+    state: "Tripura",
+    district: "North Tripura",
+    center: [23.95, 92.28],
+    zoom: 12,
+    kpis: {
+      criticalZonesCount: "8 / 26",
+      criticalZonesPct: 30.7,
+      criticalZonesTrend: "+1.0% (24h)",
+      roadMonitoredKm: 85,
+      roadBlockedPct: 14.0,
+      roadBlockedKm: 11.9,
+      rain24h: 104.0,
+      rainStatus: "Sub-tropical Ridge Convection",
+      rainAlertLevel: "yellow",
+      dispatchCount: "7 / 12",
+      dispatchPct: 58.3,
+      sdrfTeamsDeployed: 2
+    },
+    summaryStats: {
+      weeklyRiskLevel: "Moderate / Watch",
+      peakWeeklyProb: 0.61,
+      peakWeeklyDate: "2026-08-21",
+      historicalMaxProb: 0.79,
+      historicalMaxDate: "2019-06-24 (Vanghmun Slip)",
+      porePressureKpa: 122.0,
+      volumetricMoisturePct: 61.5
     }
   }
 ];
@@ -795,11 +976,119 @@ export const TELEMETRY_PINS = [
     riskScore: 0.76,
     status: "warning",
     lastUpdated: "15 mins ago"
+  },
+  {
+    id: "PZ-ARN-01",
+    zoneId: "arunachal",
+    name: "Sela Pass Alpine Piezometer - North Portal Cut",
+    lat: 27.584,
+    lng: 91.865,
+    type: "Piezometer",
+    porePressureKpa: 215.0,
+    volumetricWaterContentPct: 82.0,
+    slopeAngleDeg: 54.0,
+    displacementMmHr: 6.2,
+    riskScore: 0.91,
+    status: "critical",
+    lastUpdated: "4 mins ago"
+  },
+  {
+    id: "PZ-ASM-01",
+    zoneId: "assam",
+    name: "Haflong Hill Inclinometer - Jatinga Valley",
+    lat: 25.174,
+    lng: 93.024,
+    type: "Inclinometer",
+    porePressureKpa: 195.4,
+    volumetricWaterContentPct: 86.2,
+    slopeAngleDeg: 44.0,
+    displacementMmHr: 7.8,
+    riskScore: 0.87,
+    status: "critical",
+    lastUpdated: "6 mins ago"
+  },
+  {
+    id: "PZ-MNP-01",
+    zoneId: "manipur",
+    name: "Tupul Railway Yard Subsurface Array - Ijei River Spur",
+    lat: 24.782,
+    lng: 93.624,
+    type: "Piezometer",
+    porePressureKpa: 255.8,
+    volumetricWaterContentPct: 92.4,
+    slopeAngleDeg: 58.0,
+    displacementMmHr: 14.5,
+    riskScore: 0.95,
+    status: "critical",
+    lastUpdated: "Just now"
+  },
+  {
+    id: "PZ-TRP-01",
+    zoneId: "tripura",
+    name: "Jampui Hills Ridge Probe - Vanghmun Spur",
+    lat: 23.952,
+    lng: 92.284,
+    type: "Soil Moisture",
+    porePressureKpa: 122.0,
+    volumetricWaterContentPct: 61.5,
+    slopeAngleDeg: 36.0,
+    displacementMmHr: 2.8,
+    riskScore: 0.61,
+    status: "watch",
+    lastUpdated: "18 mins ago"
   }
 ];
 
 // Excavations & Slope Sector Statistics Table
 export const SLOPE_SECTORS = [
+  {
+    refName: "SLP-ARN-01",
+    zoneId: "arunachal",
+    location: "Sela Pass Alpine Portal Cut",
+    meanRisk: 0.89,
+    minRisk: 0.72,
+    maxRisk: 0.96,
+    stdDev: 0.05,
+    status: "critical",
+    lat: 27.584,
+    lng: 91.865
+  },
+  {
+    refName: "SLP-ASM-01",
+    zoneId: "assam",
+    location: "Jatinga Embankment Slope",
+    meanRisk: 0.85,
+    minRisk: 0.68,
+    maxRisk: 0.92,
+    stdDev: 0.06,
+    status: "critical",
+    lat: 25.174,
+    lng: 93.024
+  },
+  {
+    refName: "SLP-MNP-01",
+    zoneId: "manipur",
+    location: "Tupul Railway Yard Shear Face",
+    meanRisk: 0.94,
+    minRisk: 0.88,
+    maxRisk: 0.99,
+    stdDev: 0.03,
+    status: "critical",
+    lat: 24.782,
+    lng: 93.624
+  },
+  {
+    refName: "SLP-TRP-01",
+    zoneId: "tripura",
+    location: "Vanghmun Sandstone Slope",
+    meanRisk: 0.58,
+    minRisk: 0.42,
+    maxRisk: 0.69,
+    stdDev: 0.07,
+    status: "warning",
+    lat: 23.952,
+    lng: 92.284
+  },
   {
     refName: "DAM-NEP-101",
     zoneId: "nepal_dam",

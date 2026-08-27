@@ -188,6 +188,82 @@ export const PRECISE_HIGHWAY_CORRIDORS = {
         [23.490, 93.360]
       ]
     }
+  ],
+
+  // Arunachal Pradesh - NH-13 Trans-Arunachal & Sela Pass
+  arunachal: [
+    {
+      id: "nh13-sela-pass",
+      name: "NH-13 Balipara - Bhalukpong - Tawang Corridor",
+      ref: "NH-13",
+      status: "One-Lane Restriction",
+      displacementRate: "6.2 mm/hr",
+      detour: "Via Sela Tunnel Bypass",
+      coordinates: [
+        [27.480, 91.750],
+        [27.520, 91.790],
+        [27.580, 91.860],
+        [27.630, 91.920],
+        [27.680, 91.980]
+      ]
+    }
+  ],
+
+  // Assam - NH-27 Lumding - Haflong - Silchar
+  assam: [
+    {
+      id: "nh27-dima-hasao",
+      name: "NH-27 East-West Corridor (Haflong Hill Section)",
+      ref: "NH-27",
+      status: "High Alert / Blocked Sections",
+      displacementRate: "7.8 mm/hr",
+      detour: "Via Meghalaya NH-6 Alternate",
+      coordinates: [
+        [25.080, 92.920],
+        [25.120, 92.970],
+        [25.170, 93.020],
+        [25.220, 93.080],
+        [25.280, 93.150]
+      ]
+    }
+  ],
+
+  // Manipur - NH-37 Imphal - Jiribam (Tupul Cut)
+  manipur: [
+    {
+      id: "nh37-noney-tupul",
+      name: "NH-37 Imphal - Noney - Jiribam Highway",
+      ref: "NH-37",
+      status: "Catastrophic Debris Flow",
+      displacementRate: "14.5 mm/hr",
+      detour: "Via Old Cachar Road (Light 4x4 Only)",
+      coordinates: [
+        [24.710, 93.520],
+        [24.745, 93.570],
+        [24.780, 93.620],
+        [24.820, 93.680],
+        [24.860, 93.740]
+      ]
+    }
+  ],
+
+  // Tripura - NH-8 Agartala - Dharmanagar - Jampui Hills
+  tripura: [
+    {
+      id: "nh8-jampui-ridge",
+      name: "NH-8 Dharmanagar - Jampui Hills Access Road",
+      ref: "NH-8",
+      status: "Watch Status",
+      displacementRate: "2.8 mm/hr",
+      detour: "Via Kanchanpur Bypass",
+      coordinates: [
+        [23.880, 92.210],
+        [23.915, 92.245],
+        [23.950, 92.280],
+        [23.985, 92.315],
+        [24.020, 92.350]
+      ]
+    }
   ]
 };
 
