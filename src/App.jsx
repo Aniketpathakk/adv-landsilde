@@ -17,6 +17,7 @@ import InSarModal from './components/modals/InSarModal';
 import DistrictAlertModal from './components/modals/DistrictAlertModal';
 import SdrfDispatchModal from './components/modals/SdrfDispatchModal';
 import NewReportModal from './components/modals/NewReportModal';
+import IotTerminalModal from './components/modals/IotTerminalModal';
 
 // Mock Data
 import { 
@@ -53,6 +54,7 @@ export default function App() {
   const [districtAlertReport, setDistrictAlertReport] = useState(null);
   const [sdrfReport, setSdrfReport] = useState(null);
   const [isNewReportModalOpen, setIsNewReportModalOpen] = useState(false);
+  const [isIotTerminalOpen, setIsIotTerminalOpen] = useState(false);
   const [syncToast, setSyncToast] = useState(null);
 
   // Live IMD Weather Stream Sync Effect
@@ -134,6 +136,7 @@ export default function App() {
         lastSyncTime={lastSyncTime}
         onForceSync={handleForceSync}
         onFocusHighRiskMode={() => handleFocusHighRiskZone(HIGH_RISK_PRIORITY_ZONES[0])}
+        onOpenIotTerminal={() => setIsIotTerminalOpen(true)}
       />
 
       {/* Main Dashboard Layout Container */}
@@ -276,6 +279,19 @@ export default function App() {
         onClose={() => setIsNewReportModalOpen(false)}
         selectedZone={selectedZone}
         onAddReport={handleAddCitizenReport}
+      />
+
+      <IotTerminalModal
+        isOpen={isIotTerminalOpen}
+        onClose={() => setIsIotTerminalOpen(false)}
+        selectedZone={selectedZone}
+        onUpdateTelemetry={(pkt) => {
+          setLastSyncTime(pkt.timestamp);
+          if (pkt.porePressureKpa > 230) {
+            setSyncToast(`⚠️ HIGH PORE PRESSURE ALERT: ${pkt.sensorId} (${pkt.porePressureKpa} kPa)`);
+            setTimeout(() => setSyncToast(null), 3000);
+          }
+        }}
       />
     </div>
   );

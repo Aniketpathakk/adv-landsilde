@@ -10,7 +10,8 @@ import {
   Layers,
   Activity,
   Flame,
-  Waves
+  Waves,
+  Terminal
 } from 'lucide-react';
 import { LANGUAGES, TRANSLATIONS } from '../data/mockData';
 
@@ -25,7 +26,8 @@ export default function Header({
   onOpenSmsModal,
   lastSyncTime,
   onForceSync,
-  onFocusHighRiskMode
+  onFocusHighRiskMode,
+  onOpenIotTerminal
 }) {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
@@ -54,6 +56,15 @@ export default function Header({
           </span>
         </div>
         <div className="flex items-center space-x-4">
+          <button
+            onClick={onOpenIotTerminal}
+            className="flex items-center hover:text-emerald-300 transition-colors text-emerald-400 font-semibold cursor-pointer"
+            title="Open Live IoT & Dataset API Terminal"
+          >
+            <Terminal className="w-3.5 h-3.5 mr-1 text-emerald-400 animate-pulse" />
+            <span>IoT Terminal & APIs</span>
+          </button>
+          <span className="text-slate-600">|</span>
           <button 
             onClick={onForceSync}
             className="flex items-center hover:text-emerald-300 transition-colors text-slate-300 cursor-pointer"
@@ -93,6 +104,16 @@ export default function Header({
 
         {/* Action Controls & Resilience Selectors */}
         <div className="flex flex-wrap items-center gap-3">
+          {/* Live IoT Hardware Stream & APIs Button */}
+          <button
+            onClick={onOpenIotTerminal}
+            className="flex items-center px-3 py-1.5 rounded-lg text-xs font-extrabold bg-slate-900 hover:bg-slate-800 text-emerald-400 border border-emerald-500/40 shadow-sm transition-all cursor-pointer"
+            title="Open Live Hardware Sensor Packet Receiver & Open API Aggregator"
+          >
+            <Terminal className="w-4 h-4 mr-1.5 text-emerald-400 animate-pulse" />
+            <span>Live IoT & APIs</span>
+          </button>
+
           {/* Nepal Dam Outburst Direct Radar Button */}
           <button
             onClick={handleSelectNepalDam}
