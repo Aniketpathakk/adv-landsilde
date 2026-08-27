@@ -9,7 +9,8 @@ import {
   MapPin,
   Layers,
   Activity,
-  Flame
+  Flame,
+  Waves
 } from 'lucide-react';
 import { LANGUAGES, TRANSLATIONS } from '../data/mockData';
 
@@ -27,6 +28,13 @@ export default function Header({
   onFocusHighRiskMode
 }) {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+
+  const handleSelectNepalDam = () => {
+    const nepalZone = monitoringZones.find(z => z.id === 'nepal_dam');
+    if (nepalZone) {
+      setSelectedZone(nepalZone);
+    }
+  };
 
   return (
     <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
@@ -56,7 +64,7 @@ export default function Header({
           </button>
           <span className="text-slate-600">|</span>
           <span className="text-slate-300 flex items-center">
-            IMD Satellite: <span className="text-emerald-400 ml-1 font-semibold">INSAT-3DR Active</span>
+            Nepal Dam Detection: <span className="text-red-400 ml-1 font-semibold flex items-center"><span className="w-2 h-2 rounded-full bg-red-500 animate-ping mr-1"></span>ACTIVE (99% DETECTED)</span>
           </span>
         </div>
       </div>
@@ -74,7 +82,7 @@ export default function Header({
                 GeoRisk <span className="text-orange-600">Sentinel</span>
               </h1>
               <span className="px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase bg-orange-100 text-orange-800 border border-orange-200 rounded-md">
-                NE India
+                NE India & Nepal Border
               </span>
             </div>
             <p className="text-xs text-slate-500 font-medium">
@@ -85,6 +93,16 @@ export default function Header({
 
         {/* Action Controls & Resilience Selectors */}
         <div className="flex flex-wrap items-center gap-3">
+          {/* Nepal Dam Outburst Direct Radar Button */}
+          <button
+            onClick={handleSelectNepalDam}
+            className="flex items-center px-3 py-1.5 rounded-lg text-xs font-extrabold bg-gradient-to-r from-red-600 to-amber-600 text-white shadow-md hover:from-red-700 hover:to-amber-700 transition-all cursor-pointer animate-pulse"
+            title="Jump directly to Nepal Dam Breach Early Warning Zone"
+          >
+            <Waves className="w-4 h-4 mr-1.5 text-amber-200" />
+            <span>Nepal Dam Breach Zone (99%)</span>
+          </button>
+
           {/* Zone Selector */}
           <div className="flex items-center bg-slate-100/80 border border-slate-200 rounded-lg px-2.5 py-1.5 focus-within:ring-2 focus-within:ring-orange-500 focus-within:bg-white transition-all">
             <MapPin className="w-4 h-4 text-orange-600 mr-2 shrink-0" />
@@ -111,7 +129,7 @@ export default function Header({
             title="Focus on High Risk Zones with highest possibility of disaster"
           >
             <Flame className="w-4 h-4 text-red-600 mr-1.5 animate-pulse" />
-            <span>High Risk Radar (4)</span>
+            <span>High Risk Radar ({monitoringZones.length})</span>
           </button>
 
           {/* Offline/Online Resilient Storage Toggle */}

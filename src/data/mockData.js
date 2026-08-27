@@ -344,6 +344,28 @@ export const TRANSLATIONS = {
 // High Risk Danger Priority Zones (High Possibility of Disaster)
 export const HIGH_RISK_PRIORITY_ZONES = [
   {
+    id: "HRZ-NEP-05",
+    name: "Nepal Bhotekoshi Hydro-Dam Core Failure & GLOF Outburst",
+    zoneId: "nepal_dam",
+    disasterPossibilityScore: 0.99,
+    status: "CATASTROPHIC_DAM_BREACH",
+    state: "Nepal Transboundary / India Border",
+    district: "Bhotekoshi / Koshi Basin",
+    center: [27.95, 85.92],
+    polygonCoords: [
+      [27.98, 85.88],
+      [27.99, 85.96],
+      [27.92, 85.97],
+      [27.90, 85.89]
+    ],
+    populationAtRisk: 85000,
+    primaryHazard: "Dam Core Wall Collapse & 5.8m Outburst Wave",
+    displacementRate: "184 mm/6h",
+    porePressureKpa: 340.5,
+    antecedentRain10d: 312.0,
+    recommendedAction: "CATASTROPHIC OUTBURST DETECTED - Mass Evacuation & Transboundary NDRF Alert"
+  },
+  {
     id: "HRZ-KAL-01",
     name: "29th Mile Teesta Shear Zone (NH-10 Kalimpong)",
     zoneId: "kalimpong",
@@ -434,6 +456,37 @@ export const HIGH_RISK_PRIORITY_ZONES = [
 ];
 
 export const MONITORING_ZONES = [
+  {
+    id: "nepal_dam",
+    name: "Nepal Transboundary Dam & GLOF Outburst Zone",
+    state: "Nepal / Transboundary Basin",
+    district: "Upper Koshi Basin",
+    center: [27.95, 85.92],
+    zoom: 11,
+    kpis: {
+      criticalZonesCount: "38 / 40",
+      criticalZonesPct: 95.0,
+      criticalZonesTrend: "+42.0% (Breach Event)",
+      roadMonitoredKm: 210,
+      roadBlockedPct: 78.5,
+      roadBlockedKm: 164.8,
+      rain24h: 312.0,
+      rainStatus: "Dam Break & Extreme Transboundary Surge",
+      rainAlertLevel: "red",
+      dispatchCount: "32 / 35",
+      dispatchPct: 91.4,
+      sdrfTeamsDeployed: 14
+    },
+    summaryStats: {
+      weeklyRiskLevel: "CATASTROPHIC / DAM BREACH",
+      peakWeeklyProb: 0.99,
+      peakWeeklyDate: "2026-08-26 (Nepal Dam Break)",
+      historicalMaxProb: 0.99,
+      historicalMaxDate: "2026-08-26 (Nepal Bhotekoshi Outburst)",
+      porePressureKpa: 340.5,
+      volumetricMoisturePct: 98.5
+    }
+  },
   {
     id: "gangtok",
     name: "Gangtok & East Sikkim Corridor",
@@ -594,6 +647,51 @@ export const MONITORING_ZONES = [
 // Telemetry Sensors (Piezometers, Inclinometers, Rain Gauges, Soil Moisture)
 export const TELEMETRY_PINS = [
   {
+    id: "PZ-NEP-01",
+    zoneId: "nepal_dam",
+    name: "Dam Core Piezometer Array #N1 - Bhotekoshi Hydro Structure",
+    lat: 27.952,
+    lng: 85.922,
+    type: "Piezometer",
+    porePressureKpa: 340.5,
+    volumetricWaterContentPct: 98.5,
+    slopeAngleDeg: 62.0,
+    displacementMmHr: 30.6,
+    riskScore: 0.99,
+    status: "critical",
+    lastUpdated: "Real-time Detection Trigger"
+  },
+  {
+    id: "INC-NEP-02",
+    zoneId: "nepal_dam",
+    name: "Acoustic Hydrograph Telemetry Station - Koshi Border Gateway",
+    lat: 27.935,
+    lng: 85.905,
+    type: "Hydro-Acoustic Radar",
+    porePressureKpa: 310.0,
+    volumetricWaterContentPct: 96.0,
+    slopeAngleDeg: 12.0,
+    displacementMmHr: 45.0,
+    riskScore: 0.97,
+    status: "critical",
+    lastUpdated: "Just now"
+  },
+  {
+    id: "SAR-NEP-03",
+    zoneId: "nepal_dam",
+    name: "Sentinel-1A SAR InSAR Anomaly Sensor Pin - Dam Crest Wall",
+    lat: 27.960,
+    lng: 85.938,
+    type: "InSAR Radar Node",
+    porePressureKpa: 285.0,
+    volumetricWaterContentPct: 92.0,
+    slopeAngleDeg: 55.0,
+    displacementMmHr: 22.4,
+    riskScore: 0.96,
+    status: "critical",
+    lastUpdated: "1 min ago"
+  },
+  {
     id: "PZ-GKT-01",
     zoneId: "gangtok",
     name: "Piezometer Array #108 - Mile 9 Gangtok Road",
@@ -703,6 +801,30 @@ export const TELEMETRY_PINS = [
 // Excavations & Slope Sector Statistics Table
 export const SLOPE_SECTORS = [
   {
+    refName: "DAM-NEP-101",
+    zoneId: "nepal_dam",
+    location: "Bhotekoshi Main Concrete Dam Wall",
+    meanRisk: 0.99,
+    minRisk: 0.94,
+    maxRisk: 1.00,
+    stdDev: 0.02,
+    status: "critical",
+    lat: 27.952,
+    lng: 85.922
+  },
+  {
+    refName: "DAM-NEP-102",
+    zoneId: "nepal_dam",
+    location: "Upper Glacial Lake Moraine Dam Wall",
+    meanRisk: 0.96,
+    minRisk: 0.88,
+    maxRisk: 0.99,
+    stdDev: 0.04,
+    status: "critical",
+    lat: 27.960,
+    lng: 85.938
+  },
+  {
     refName: "TER-535",
     zoneId: "gangtok",
     location: "Mile 9 Teesta Valley Cut",
@@ -810,7 +932,8 @@ export const HYDRO_TIME_SERIES = [
   { date: "Aug 20", rain_10_acc: 168, rain_15_max: 52.0, riskMean: 0.76, riskLower: 0.69, riskUpper: 0.84, event: null },
   { date: "Aug 22", rain_10_acc: 189, rain_15_max: 64.5, riskMean: 0.83, riskLower: 0.76, riskUpper: 0.90, event: "NH-10 Culvert Washout" },
   { date: "Aug 24 (Today)", rain_10_acc: 218, rain_15_max: 78.0, riskMean: 0.88, riskLower: 0.81, riskUpper: 0.94, event: "Critical Alert Issued" },
-  { date: "Aug 25 (Fcst)", rain_10_acc: 235, rain_15_max: 82.0, riskMean: 0.91, riskLower: 0.83, riskUpper: 0.97, event: null },
+  { date: "Aug 26 (Yesterday)", rain_10_acc: 312, rain_15_max: 184.0, riskMean: 0.99, riskLower: 0.95, riskUpper: 1.00, event: "NEPAL CATASTROPHIC DAM BREACH & OUTBURST WAVE DETECTED" },
+  { date: "Aug 27 (Fcst)", rain_10_acc: 235, rain_15_max: 82.0, riskMean: 0.91, riskLower: 0.83, riskUpper: 0.97, event: null },
   { date: "Aug 26 (Fcst)", rain_10_acc: 210, rain_15_max: 55.0, riskMean: 0.78, riskLower: 0.68, riskUpper: 0.86, event: null },
   { date: "Aug 27 (Fcst)", rain_10_acc: 175, rain_15_max: 38.0, riskMean: 0.62, riskLower: 0.52, riskUpper: 0.71, event: null },
   { date: "Aug 28 (Fcst)", rain_10_acc: 140, rain_15_max: 22.0, riskMean: 0.45, riskLower: 0.36, riskUpper: 0.54, event: null }
@@ -818,6 +941,17 @@ export const HYDRO_TIME_SERIES = [
 
 // Top Arterial Highway Vulnerabilities (Band 4 Left)
 export const HIGHWAY_VULNERABILITIES = [
+  {
+    id: "nepal-koshi-corridor",
+    name: "Nepal Transboundary Outburst Corridor (Bhotekoshi - Koshi Basin)",
+    lengthKm: 140,
+    displacementRate: "30.6 mm/hr",
+    riskScore: 0.99,
+    status: "Catastrophic Inundation",
+    detourName: "High Altitude Evacuation Routes Only",
+    trafficImpact: "Submerged & Destroyed Bridge Access",
+    clearedEta: "Emergency Operations"
+  },
   {
     id: "nh10-kalimpong",
     name: "NH-10 Kalimpong - Teesta Corridor",
@@ -877,6 +1011,25 @@ export const HIGHWAY_VULNERABILITIES = [
 
 // Geo-Tagged Field Reports & Crowdsourced Ingestion (Band 4 Right)
 export const INITIAL_CITIZEN_REPORTS = [
+  {
+    id: "REP-2026-NEP01",
+    author: "Border Post Sentinel Station #4 (Nepal-India Boundary)",
+    location: "Upper Koshi River Gateway, Nepal Border",
+    lat: 27.940,
+    lng: 85.910,
+    timestamp: "12 mins ago",
+    category: "CATASTROPHIC DAM BREACH & 5.8M SURGE WAVE",
+    crackWidthCm: 184.0,
+    photoUrl: "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=600&q=80",
+    verified: true,
+    verificationSource: "AUTOMATED DETECTION: Sentinel-1A SAR + Telemetry",
+    inSarData: {
+      displacementRateYear: "-184 mm (6h Crest Collapse)",
+      coherenceIndex: 0.12,
+      interferogramFringe: "Complete Phase Loss (Structural Breach)",
+      satellitePass: "Sentinel-1A (Pass 142 Nepal Overpass)"
+    }
+  },
   {
     id: "REP-2026-0841",
     author: "Sonam Lepcha (Panchayat Field Assistant)",
@@ -938,6 +1091,13 @@ export const INITIAL_CITIZEN_REPORTS = [
 
 // Heatmap Grid Cells (2D Geo Coordinates for NE India)
 export const RASTER_HEATMAP_GRID = [
+  // Nepal Dam Breach Cluster
+  { lat: 27.950, lng: 85.920, risk: 0.99 },
+  { lat: 27.955, lng: 85.925, risk: 0.98 },
+  { lat: 27.945, lng: 85.915, risk: 0.95 },
+  { lat: 27.960, lng: 85.930, risk: 0.97 },
+  { lat: 27.935, lng: 85.905, risk: 0.94 },
+
   // Gangtok Cluster
   { lat: 27.345, lng: 88.610, risk: 0.92 },
   { lat: 27.340, lng: 88.615, risk: 0.85 },

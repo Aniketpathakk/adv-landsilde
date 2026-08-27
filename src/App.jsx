@@ -7,6 +7,7 @@ import SectorStatistics from './components/SectorStatistics';
 import HydroGeologicalChart from './components/HydroGeologicalChart';
 import RoadVulnerabilities from './components/RoadVulnerabilities';
 import CrowdsourcedDispatch from './components/CrowdsourcedDispatch';
+import NepalDamAlertBanner from './components/NepalDamAlertBanner';
 
 // Modals
 import BroadcastSMSModal from './components/modals/BroadcastSMSModal';
@@ -71,6 +72,12 @@ export default function App() {
     setTimeout(() => setSyncToast(null), 3500);
   };
 
+  // Focus on Nepal Dam Breach Zone directly
+  const handleFocusNepalDamBreach = () => {
+    const nepalHr = HIGH_RISK_PRIORITY_ZONES.find(z => z.id === 'HRZ-NEP-05') || HIGH_RISK_PRIORITY_ZONES[0];
+    handleFocusHighRiskZone(nepalHr);
+  };
+
   // Citizen report submit handler
   const handleAddCitizenReport = (newRep) => {
     setCitizenReports([newRep, ...citizenReports]);
@@ -104,6 +111,15 @@ export default function App() {
       {/* Main Dashboard Layout Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full space-y-6">
         
+        {/* NEPAL DAM BREACH & OUTBURST DETECTION CATASTROPHIC ALERT BANNER */}
+        <NepalDamAlertBanner
+          onFocusNepalZone={handleFocusNepalDamBreach}
+          onOpenSmsModal={() => setIsSmsModalOpen(true)}
+          onOpenInSarScan={() => setInSarReport(citizenReports.find(r => r.id === 'REP-2026-NEP01') || citizenReports[0])}
+          onDispatchSdrf={() => setSdrfReport(citizenReports.find(r => r.id === 'REP-2026-NEP01') || citizenReports[0])}
+          isDetected={true}
+        />
+
         {/* BAND 1: TOP EXECUTIVE KPI CARDS */}
         <ExecutiveKPIs
           selectedZone={selectedZone}
