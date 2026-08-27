@@ -8,6 +8,7 @@ import HydroGeologicalChart from './components/HydroGeologicalChart';
 import RoadVulnerabilities from './components/RoadVulnerabilities';
 import CrowdsourcedDispatch from './components/CrowdsourcedDispatch';
 import NepalDamAlertBanner from './components/NepalDamAlertBanner';
+import AIPredictorPanel from './components/AIPredictorPanel';
 import { fetchImdRainfallData } from './services/imdWeatherService';
 
 // Modals
@@ -159,6 +160,11 @@ export default function App() {
           onFocusHighRiskZone={handleFocusHighRiskZone}
           onOpenSmsModal={() => setIsSmsModalOpen(true)}
           activeHighRiskId={activeHighRiskZone?.id}
+        />
+
+        {/* AI/ML MULTI-PARAMETRIC LANDSLIDE RISK PREDICTOR & SIMULATOR */}
+        <AIPredictorPanel
+          selectedZone={selectedZone}
         />
 
         {/* BAND 2: GEOSPATIAL & SECTORAL ANALYSIS (Grid View 2 Columns on desktop) */}
