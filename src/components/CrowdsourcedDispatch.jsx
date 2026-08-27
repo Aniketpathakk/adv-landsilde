@@ -10,9 +10,62 @@ import {
   ShieldAlert, 
   Plus,
   Satellite,
-  UserCheck
+  UserCheck,
+  Waves,
+  AlertTriangle,
+  Layers,
+  Mountain,
+  Eye
 } from 'lucide-react';
 import { TRANSLATIONS } from '../data/mockData';
+
+function ReportThumbnail({ report }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError || !report.photoUrl) {
+    const isDam = report.category?.toLowerCase().includes('dam') || report.category?.toLowerCase().includes('surge');
+    const isCrack = report.category?.toLowerCase().includes('crack') || report.category?.toLowerCase().includes('tension');
+    const isWall = report.category?.toLowerCase().includes('wall') || report.category?.toLowerCase().includes('subsidence');
+
+    return (
+      <div className={`w-16 h-16 rounded-lg border flex flex-col items-center justify-center shrink-0 p-1 text-center shadow-2xs ${
+        isDam 
+          ? 'bg-red-50 border-red-200 text-red-600' 
+          : isCrack 
+            ? 'bg-amber-50 border-amber-200 text-amber-600' 
+            : isWall 
+              ? 'bg-orange-50 border-orange-200 text-orange-600'
+              : 'bg-slate-100 border-slate-200 text-slate-600'
+      }`}>
+        {isDam ? (
+          <Waves className="w-5 h-5 mb-0.5 animate-pulse" />
+        ) : isCrack ? (
+          <AlertTriangle className="w-5 h-5 mb-0.5" />
+        ) : isWall ? (
+          <Layers className="w-5 h-5 mb-0.5" />
+        ) : (
+          <Mountain className="w-5 h-5 mb-0.5" />
+        )}
+        <span className="text-[8px] font-bold uppercase tracking-tighter leading-tight line-clamp-1">
+          {isDam ? 'Dam Surge' : isCrack ? 'Tension' : isWall ? 'Wall Bulge' : 'Rockfall'}
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative w-16 h-16 rounded-lg overflow-hidden border border-slate-200 shrink-0 bg-slate-100 group shadow-2xs">
+      <img
+        src={report.photoUrl}
+        alt={report.category}
+        onError={() => setHasError(true)}
+        className="w-full h-full object-cover transition-transform group-hover:scale-105"
+        loading="lazy"
+      />
+      <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
+    </div>
+  );
+}
 
 export default function CrowdsourcedDispatch({
   citizenReports,
@@ -73,11 +126,7 @@ export default function CrowdsourcedDispatch({
 
             {/* Middle row: Image Thumbnail & Details */}
             <div className="flex gap-3 my-2.5">
-              <img
-                src={report.photoUrl}
-                alt={report.category}
-                className="w-16 h-16 rounded-md object-cover border border-slate-200 shrink-0 bg-slate-100"
-              />
+              <ReportThumbnail report={report} />
               <div className="text-[11px] text-slate-600 space-y-1">
                 <p className="flex items-center text-slate-800 font-semibold">
                   <MapPin className="w-3 h-3 text-orange-600 mr-1 shrink-0" />

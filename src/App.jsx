@@ -235,14 +235,16 @@ export default function App() {
 
       {/* Footer */}
       <footer className="bg-white border-t border-slate-200 py-4 mt-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
-          <div className="flex items-center space-x-2">
-            <span className="font-bold text-slate-700">GeoRisk Sentinel &copy; 2026</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
+          <div className="flex items-center space-x-2 flex-wrap gap-y-1">
+            <span className="font-bold text-slate-800">GeoRisk Sentinel &copy; 2026</span>
             <span>&bull;</span>
             <span>North Eastern Regional Disaster Management Authority (NERDMA)</span>
+            <span>&bull;</span>
+            <span className="text-slate-700">Developed by <strong className="text-orange-600 font-extrabold">Aniket Pathak</strong></span>
           </div>
-          <div className="flex items-center space-x-4 font-mono text-[11px] text-slate-400">
-            <span>Geotechnical Telemetry Standard ISO-19115</span>
+          <div className="flex items-center space-x-3 font-mono text-[11px] text-slate-400">
+            <span>Geotechnical Standard ISO-19115</span>
             <span>&bull;</span>
             <span>IMD GeoJSON API v2.4</span>
           </div>
