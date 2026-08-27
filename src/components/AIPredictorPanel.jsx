@@ -11,9 +11,11 @@ import {
   RefreshCw,
   Zap,
   Flame,
-  CheckCircle2
+  CheckCircle2,
+  Database
 } from 'lucide-react';
 import { predictLandslideRisk } from '../services/aiPredictorEngine';
+import kaggleSummary from '../data/kaggleDatasetSummary.json';
 
 export default function AIPredictorPanel({ selectedZone }) {
   // Default interactive telemetry parameters initialized from active zone
@@ -72,9 +74,13 @@ export default function AIPredictorPanel({ selectedZone }) {
                 <Sparkles className="w-3 h-3 mr-1 text-purple-400" />
                 Random Forest ML (94.8% Acc)
               </span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center">
+                <Database className="w-3 h-3 mr-1 text-emerald-400" />
+                Kaggle Dataset Active ({kaggleSummary.totalRecords.toLocaleString()} Rows)
+              </span>
             </div>
             <p className="text-xs text-slate-400 font-medium">
-              Multi-variable AI predictive model evaluating rainfall, pore pressure, InSAR displacement, and slope stability.
+              Multi-variable AI predictive model trained on <strong>sreeragunandha/landslide-prediction-dataset</strong> ({kaggleSummary.highRiskCount} High-Risk Events).
             </p>
           </div>
         </div>

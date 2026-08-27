@@ -1,0 +1,56 @@
+{
+  "datasetName": "sreeragunandha/landslide-prediction-dataset",
+  "totalRecords": 5000,
+  "highRiskCount": 409,
+  "lowRiskCount": 4591,
+  "columns": [
+    "Temperature (\u00b0C)",
+    "Humidity (%)",
+    "Precipitation (mm)",
+    "Soil Moisture (%)",
+    "Elevation (m)",
+    "Landslide Risk Prediction"
+  ],
+  "sampleRows": [
+    {
+      "Temperature (\u00b0C)": "17",
+      "Humidity (%)": "68",
+      "Precipitation (mm)": "176",
+      "Soil Moisture (%)": "64",
+      "Elevation (m)": "120",
+      "Landslide Risk Prediction": "Low"
+    },
+    {
+      "Temperature (\u00b0C)": "26",
+      "Humidity (%)": "33",
+      "Precipitation (mm)": "65",
+      "Soil Moisture (%)": "24",
+      "Elevation (m)": "672",
+      "Landslide Risk Prediction": "Low"
+    },
+    {
+      "Temperature (\u00b0C)": "16",
+      "Humidity (%)": "81",
+      "Precipitation (mm)": "56",
+      "Soil Moisture (%)": "52",
+      "Elevation (m)": "36",
+      "Landslide Risk Prediction": "Low"
+    },
+    {
+      "Temperature (\u00b0C)": "25",
+      "Humidity (%)": "53",
+      "Precipitation (mm)": "136",
+      "Soil Moisture (%)": "70",
+      "Elevation (m)": "583",
+      "Landslide Risk Prediction": "Low"
+    },
+    {
+      "Temperature (\u00b0C)": "34",
+      "Humidity (%)": "77",
+      "Precipitation (mm)": "23",
+      "Soil Moisture (%)": "37",
+      "Elevation (m)": "130",
+      "Landslide Risk Prediction": "Low"
+    }
+  ]
+}
