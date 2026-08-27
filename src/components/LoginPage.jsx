@@ -45,26 +45,26 @@ export default function LoginPage({ onLoginSuccess }) {
         email: email,
         clearance: 'Level 3 Top-Secret (All 8 NER States + Nepal Transboundary)'
       });
-    }, 500);
+    }, 450);
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center p-4 sm:p-6 lg:p-8 font-sans selection:bg-orange-200 selection:text-orange-900 overflow-hidden bg-slate-950">
+    <div className="min-h-screen relative flex items-center justify-center p-4 sm:p-6 lg:p-8 font-sans selection:bg-orange-200 selection:text-orange-900 overflow-hidden bg-slate-900">
       
-      {/* Background: Photorealistic 3D Topographic India & NER Satellite Map */}
+      {/* Background: User Provided Official Map of India with Highlighted NER & Northern Belt */}
       <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-105 filter brightness-[0.78] contrast-[1.05]"
-        style={{ backgroundImage: `url('/assets/india_ner_bg.jpg')` }}
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-700 filter brightness-[0.88] contrast-[1.02]"
+        style={{ backgroundImage: `url('/assets/india_map_bg.png')` }}
       >
-        {/* Ambient Dark Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-900/40 to-slate-950/80" />
+        {/* Soft Ambient Contrast Overlay to ensure map clarity + card contrast */}
+        <div className="absolute inset-0 bg-slate-950/25 backdrop-blur-[0.5px]" />
       </div>
 
       {/* Foreground Login Card */}
       <div className="w-full max-w-md z-10 relative animate-in fade-in zoom-in-95 duration-300">
         
         {/* Main Card */}
-        <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-white/40 shadow-2xl p-6 sm:p-8 text-slate-900">
+        <div className="bg-white/95 backdrop-blur-md rounded-2xl border border-slate-200/90 shadow-2xl p-6 sm:p-8 text-slate-900">
           
           {/* Card Header */}
           <div className="text-center mb-6">
@@ -202,13 +202,13 @@ export default function LoginPage({ onLoginSuccess }) {
         </div>
 
         {/* Footer Attribution */}
-        <div className="mt-4 text-center text-xs text-white/80 font-medium drop-shadow-md">
+        <div className="mt-4 text-center text-xs text-white/90 font-medium drop-shadow-md">
           GeoRisk Sentinel &bull; Developed by{' '}
           <a
             href="https://in.linkedin.com/in/aniiketpathak"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-bold text-orange-400 hover:underline"
+            className="font-bold text-amber-300 hover:underline"
           >
             Aniket Pathak
           </a>
