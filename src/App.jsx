@@ -165,7 +165,6 @@ export default function App() {
         onOpenIotTerminal={() => setIsIotTerminalOpen(true)}
         onOpenLiveGovGateway={() => setIsLiveGatewayOpen(true)}
         currentUser={currentUser}
-        onLogout={handleLogout}
       />
 
       {/* Main Dashboard Layout Container */}
