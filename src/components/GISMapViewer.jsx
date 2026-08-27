@@ -69,6 +69,7 @@ export default function GISMapViewer({
   const [showHighRiskPolygons, setShowHighRiskPolygons] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
   const [roadLines, setRoadLines] = useState([]);
+  const [flyingZoneName, setFlyingZoneName] = useState(null);
 
   // Fetch real road vectors for the active zone
   useEffect(() => {
@@ -119,24 +120,38 @@ export default function GISMapViewer({
     };
   }, []);
 
-  // Update center when zone changes
+  // Smooth flyTo animation when user switches zone/state
   useEffect(() => {
     if (mapInstanceRef.current && selectedZone) {
-      mapInstanceRef.current.setView(selectedZone.center, selectedZone.zoom, { animate: true });
+      setFlyingZoneName(`${selectedZone.name} (${selectedZone.state})`);
+      mapInstanceRef.current.flyTo(selectedZone.center, selectedZone.zoom, {
+        duration: 1.8,
+        easeLinearity: 0.25
+      });
+
+      const timer = setTimeout(() => {
+        setFlyingZoneName(null);
+      }, 2000);
+
+      return () => clearTimeout(timer);
     }
   }, [selectedZone]);
 
-  // Update when focused sector changes
+  // Smooth flyTo when focused sector changes
   useEffect(() => {
     if (mapInstanceRef.current && focusedSector) {
-      mapInstanceRef.current.setView([focusedSector.lat, focusedSector.lng], 14, { animate: true });
+      mapInstanceRef.current.flyTo([focusedSector.lat, focusedSector.lng], 14, {
+        duration: 1.2
+      });
     }
   }, [focusedSector]);
 
-  // Update when active high risk zone changes
+  // Smooth flyTo when active high risk zone changes
   useEffect(() => {
     if (mapInstanceRef.current && activeHighRiskZone) {
-      mapInstanceRef.current.setView(activeHighRiskZone.center, 13, { animate: true });
+      mapInstanceRef.current.flyTo(activeHighRiskZone.center, 13, {
+        duration: 1.5
+      });
     }
   }, [activeHighRiskZone]);
 
@@ -466,6 +481,14 @@ export default function GISMapViewer({
       {/* Leaflet Canvas Container */}
       <div className="flex-1 w-full h-full relative">
         <div ref={mapContainerRef} className="w-full h-full z-0" />
+
+        {/* Animated Satellite Flight Repositioning Badge */}
+        {flyingZoneName && (
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 bg-slate-900/90 backdrop-blur-md text-white border border-orange-500/50 shadow-xl px-4 py-2 rounded-full flex items-center space-x-2 text-xs font-mono animate-in fade-in zoom-in duration-300 pointer-events-none">
+            <Navigation className="w-4 h-4 text-orange-400 animate-spin-slow" />
+            <span>Satellite GIS Focus: <strong className="text-orange-300">{flyingZoneName}</strong></span>
+          </div>
+        )}
 
         {/* Floating GeoRisk Hazard Gradient Legend (Inspired by GeoRiskPH) */}
         <div className="absolute bottom-4 left-4 z-10 bg-white/95 backdrop-blur-xs border border-slate-200 rounded-lg p-3 shadow-md max-w-xs text-xs">
