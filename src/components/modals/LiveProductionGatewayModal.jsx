@@ -290,11 +290,11 @@ export default function LiveProductionGatewayModal({ isOpen, onClose, selectedZo
             <div className="space-y-3">
               <div className="bg-slate-900 text-emerald-400 p-4 rounded-xl font-mono text-[11px] leading-relaxed max-h-[350px] overflow-y-auto space-y-1">
                 <div>[SYSTEM] Ingestion Pipeline Daemon v2.6.4 (Active 24/7)</div>
-                <div>[IMD DOPPLER] HTTP 200 OK &bull; Ingested 3h Nowcast Grid for {selectedZone?.name}</div>
-                <div>[SENTINEL-1A] C-SAR Pass Coherence Verified (&gamma; = 0.94) &bull; Phase delta: -4.8mm/hr</div>
-                <div>[MQTT BROKER] Received 48 telemetry packets &bull; PZ-01: {liveStreamPayload?.iot?.porePressureKpa || 185.4} kPa &bull; RSSI: -68 dBm</div>
-                <div>[AI PREDICTOR] Multi-Parametric Risk Recalculated: {((liveStreamPayload?.aiPrediction?.riskScore || 0.88) * 100).toFixed(1)}% &bull; Status: {liveStreamPayload?.aiPrediction?.status || "CRITICAL"}</div>
-                <div className="text-slate-500">[HEARTBEAT] Socket connection stable &bull; 0 packets dropped &bull; Next cycle in 6s...</div>
+                <div>[IMD DOPPLER] HTTP 200 OK • Ingested 3h Nowcast Grid for {selectedZone?.name}</div>
+                <div>[SENTINEL-1A] C-SAR Pass Coherence Verified (γ = 0.94) • Phase delta: -4.8mm/hr</div>
+                <div>[MQTT BROKER] Received 48 telemetry packets • PZ-01: {liveStreamPayload?.iot?.porePressureKpa || 185.4} kPa • RSSI: -68 dBm</div>
+                <div>[AI PREDICTOR] Multi-Parametric Risk Recalculated: {((liveStreamPayload?.aiPrediction?.riskScore || 0.88) * 100).toFixed(1)}% • Status: {liveStreamPayload?.aiPrediction?.status || "CRITICAL"}</div>
+                <div className="text-slate-500">[HEARTBEAT] Socket connection stable • 0 packets dropped • Next cycle in 6s...</div>
               </div>
             </div>
           )}
