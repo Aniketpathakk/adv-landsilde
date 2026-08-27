@@ -220,42 +220,65 @@ export default function GISMapViewer({
       });
     }
 
-    // 2. Real National Highways & Arterial Road Vectors
+    // 2. High-Precision National Highways & Dual-Casing GIS Vectors
     if (showHighways && roadLines && roadLines.length > 0) {
       roadLines.forEach((road) => {
         const status = road.status || (road.highwayType === 'trunk' ? 'One-Lane Restriction' : 'Passable');
         const color = status.includes('Blocked') || status.includes('Catastrophic')
           ? '#EF4444' 
-          : status.includes('One-Lane') || status.includes('Watch')
+          : status.includes('One-Lane') || status.includes('High Alert') || status.includes('Watch')
             ? '#F97316' 
             : '#10B981';
         
         const isBlocked = status.includes('Blocked') || status.includes('Catastrophic');
 
-        const polyline = L.polyline(road.coordinates, {
+        // Layer 1: Contrast Under-casing Polyline (Outline)
+        const casingPolyline = L.polyline(road.coordinates, {
+          color: '#0f172a',
+          weight: 6.5,
+          opacity: 0.85,
+          lineCap: 'round',
+          lineJoin: 'round'
+        });
+        group.addLayer(casingPolyline);
+
+        // Layer 2: Core Active Status Polyline
+        const corePolyline = L.polyline(road.coordinates, {
           color: color,
           weight: 4,
-          dashArray: isBlocked ? '6, 6' : null,
-          opacity: 0.9
+          dashArray: isBlocked ? '8, 8' : null,
+          opacity: 1.0,
+          lineCap: 'round',
+          lineJoin: 'round'
         });
 
-        polyline.bindPopup(`
-          <div style="font-family: sans-serif; padding: 4px; max-width: 240px;">
-            <div style="font-weight: 800; color: #0f172a; font-size: 13px; margin-bottom: 2px;">
-              ${road.name} <span style="font-size: 10px; color: #64748b;">(${road.ref || 'Road'})</span>
+        corePolyline.bindPopup(`
+          <div style="font-family: sans-serif; padding: 6px; max-width: 270px;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+              <span style="background: #0f172a; color: #f8fafc; padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10px; font-family: monospace; letter-spacing: 0.5px;">
+                ${road.ref || 'CORRIDOR'}
+              </span>
+              <span style="font-size: 10px; color: #64748b; font-weight: 600;">${road.type || 'National Highway'}</span>
             </div>
-            <div style="font-size: 11px; color: #475569; margin-bottom: 3px;">
-              Status: <strong style="color: ${color}">${status}</strong>
+            
+            <div style="font-weight: 800; color: #0f172a; font-size: 12.5px; line-height: 1.3; margin-bottom: 4px;">
+              ${road.name}
             </div>
-            ${road.displacementRate ? `<div style="font-size: 11px; color: #64748b;">Displacement: <strong>${road.displacementRate}</strong></div>` : ''}
-            ${road.detour ? `<div style="font-size: 10px; color: #64748b; margin-top: 2px;">Detour: ${road.detour}</div>` : ''}
-            <div style="font-size: 9px; color: #94a3b8; margin-top: 4px; border-top: 1px solid #e2e8f0; pt: 2px;">
-              Source: ${road.source || 'OpenStreetMap Vector Network'}
+
+            <div style="background: #f8fafc; padding: 6px 8px; border-radius: 6px; border: 1px solid #e2e8f0; margin-bottom: 4px;">
+              <div style="font-size: 11px; color: #334155; margin-bottom: 2px;">
+                Passability: <strong style="color: ${color}; text-transform: uppercase;">${status}</strong>
+              </div>
+              ${road.displacementRate ? `<div style="font-size: 11px; color: #475569;">Slip Velocity: <strong style="color: #0f172a;">${road.displacementRate}</strong></div>` : ''}
+              ${road.lengthKm ? `<div style="font-size: 10.5px; color: #64748b;">Monitored Span: <strong>${road.lengthKm}</strong></div>` : ''}
             </div>
+
+            ${road.agency ? `<div style="font-size: 10px; color: #64748b; margin-bottom: 2px;">Authority: <strong>${road.agency}</strong></div>` : ''}
+            ${road.detour ? `<div style="font-size: 10px; color: #d97706; background: #fffbeb; padding: 4px 6px; border-radius: 4px; border: 1px solid #fde68a; margin-top: 4px; line-height: 1.3;">⚠️ Detour: ${road.detour}</div>` : ''}
           </div>
         `);
 
-        group.addLayer(polyline);
+        group.addLayer(corePolyline);
       });
     }
 
