@@ -8,6 +8,7 @@ import HydroGeologicalChart from './components/HydroGeologicalChart';
 import RoadVulnerabilities from './components/RoadVulnerabilities';
 import CrowdsourcedDispatch from './components/CrowdsourcedDispatch';
 import NepalDamAlertBanner from './components/NepalDamAlertBanner';
+import { fetchImdRainfallData } from './services/imdWeatherService';
 
 // Modals
 import BroadcastSMSModal from './components/modals/BroadcastSMSModal';
@@ -52,6 +53,32 @@ export default function App() {
   const [sdrfReport, setSdrfReport] = useState(null);
   const [isNewReportModalOpen, setIsNewReportModalOpen] = useState(false);
   const [syncToast, setSyncToast] = useState(null);
+
+  // Live IMD Weather Stream Sync Effect
+  useEffect(() => {
+    if (!selectedZone || isOffline) return;
+
+    let isMounted = true;
+    async function loadLiveImdTelemetry() {
+      const [lat, lng] = selectedZone.center;
+      const imdData = await fetchImdRainfallData(lat, lng);
+      if (imdData && isMounted) {
+        setSelectedZone(prev => ({
+          ...prev,
+          kpis: {
+            ...prev.kpis,
+            rain24h: imdData.rain24h,
+            rainStatus: imdData.statusMsg,
+            rainAlertLevel: imdData.alertLevel
+          }
+        }));
+        setLastSyncTime(imdData.timestamp);
+      }
+    }
+
+    loadLiveImdTelemetry();
+    return () => { isMounted = false; };
+  }, [selectedZone.id, isOffline]);
 
   // Force telemetry sync handler
   const handleForceSync = () => {
