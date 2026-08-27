@@ -16,6 +16,7 @@ import {
   Flame
 } from 'lucide-react';
 import { TRANSLATIONS, RASTER_HEATMAP_GRID } from '../data/mockData';
+import { getZoneRoadNetwork } from '../services/roadNetworkService';
 
 const BASEMAPS = {
   satellite: {
@@ -67,6 +68,20 @@ export default function GISMapViewer({
   const [showCitizenReports, setShowCitizenReports] = useState(true);
   const [showHighRiskPolygons, setShowHighRiskPolygons] = useState(true);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [roadLines, setRoadLines] = useState([]);
+
+  // Fetch real road vectors for the active zone
+  useEffect(() => {
+    let isMounted = true;
+    async function loadRoads() {
+      const roads = await getZoneRoadNetwork(selectedZone);
+      if (isMounted && roads) {
+        setRoadLines(roads);
+      }
+    }
+    loadRoads();
+    return () => { isMounted = false; };
+  }, [selectedZone?.id]);
 
   // Initialize Map
   useEffect(() => {
@@ -190,34 +205,38 @@ export default function GISMapViewer({
       });
     }
 
-    // 2. National Highways Vector Overlays
-    if (showHighways && highways) {
-      highways.forEach((hw) => {
-        // Approximate route polyline segments based on current zone center
-        const offsetLat = (Math.random() - 0.5) * 0.05;
-        const offsetLng = (Math.random() - 0.5) * 0.05;
-        const routePoints = [
-          [selectedZone.center[0] - 0.08 + offsetLat, selectedZone.center[1] - 0.08 + offsetLng],
-          [selectedZone.center[0] - 0.02 + offsetLat, selectedZone.center[1] - 0.03 + offsetLng],
-          [selectedZone.center[0] + 0.03 + offsetLat, selectedZone.center[1] + 0.04 + offsetLng],
-          [selectedZone.center[0] + 0.09 + offsetLat, selectedZone.center[1] + 0.08 + offsetLng]
-        ];
-
-        const color = hw.status === 'Blocked' ? '#EF4444' : hw.status.includes('One-Lane') ? '#F97316' : '#10B981';
+    // 2. Real National Highways & Arterial Road Vectors
+    if (showHighways && roadLines && roadLines.length > 0) {
+      roadLines.forEach((road) => {
+        const status = road.status || (road.highwayType === 'trunk' ? 'One-Lane Restriction' : 'Passable');
+        const color = status.includes('Blocked') || status.includes('Catastrophic')
+          ? '#EF4444' 
+          : status.includes('One-Lane') || status.includes('Watch')
+            ? '#F97316' 
+            : '#10B981';
         
-        const polyline = L.polyline(routePoints, {
+        const isBlocked = status.includes('Blocked') || status.includes('Catastrophic');
+
+        const polyline = L.polyline(road.coordinates, {
           color: color,
-          weight: 5,
-          dashArray: hw.status === 'Blocked' ? '8, 8' : null,
-          opacity: 0.95
+          weight: 4,
+          dashArray: isBlocked ? '6, 6' : null,
+          opacity: 0.9
         });
 
         polyline.bindPopup(`
-          <div style="font-family: sans-serif; padding: 4px; max-width: 220px;">
-            <div style="font-weight: 700; color: #0f172a; font-size: 13px; margin-bottom: 2px;">${hw.name}</div>
-            <div style="font-size: 11px; color: #475569; margin-bottom: 4px;">Passability: <strong style="color: ${color}">${hw.status}</strong></div>
-            <div style="font-size: 11px; color: #64748b; line-height: 1.3;">Displacement: <strong>${hw.displacementRate}</strong></div>
-            <div style="font-size: 11px; color: #64748b; line-height: 1.3; margin-top: 2px;">Detour: ${hw.detourName}</div>
+          <div style="font-family: sans-serif; padding: 4px; max-width: 240px;">
+            <div style="font-weight: 800; color: #0f172a; font-size: 13px; margin-bottom: 2px;">
+              ${road.name} <span style="font-size: 10px; color: #64748b;">(${road.ref || 'Road'})</span>
+            </div>
+            <div style="font-size: 11px; color: #475569; margin-bottom: 3px;">
+              Status: <strong style="color: ${color}">${status}</strong>
+            </div>
+            ${road.displacementRate ? `<div style="font-size: 11px; color: #64748b;">Displacement: <strong>${road.displacementRate}</strong></div>` : ''}
+            ${road.detour ? `<div style="font-size: 10px; color: #64748b; margin-top: 2px;">Detour: ${road.detour}</div>` : ''}
+            <div style="font-size: 9px; color: #94a3b8; margin-top: 4px; border-top: 1px solid #e2e8f0; pt: 2px;">
+              Source: ${road.source || 'OpenStreetMap Vector Network'}
+            </div>
           </div>
         `);
 
@@ -343,7 +362,7 @@ export default function GISMapViewer({
       });
     }
 
-  }, [showHeatmap, showHighways, showTelemetry, showCitizenReports, selectedZone, telemetryPins, citizenReports, highways]);
+  }, [showHeatmap, showHighways, showTelemetry, showCitizenReports, showHighRiskPolygons, selectedZone, telemetryPins, citizenReports, highways, roadLines, activeHighRiskZone]);
 
   return (
     <div className={`georisk-card overflow-hidden flex flex-col relative transition-all duration-300 ${
