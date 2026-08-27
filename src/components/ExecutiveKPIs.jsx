@@ -78,9 +78,14 @@ export default function ExecutiveKPIs({ selectedZone, lang }) {
       {/* KPI Card 3: IMD Extreme Weather Alerts */}
       <div className="georisk-card p-4 relative overflow-hidden group border-l-4 border-l-sky-500">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-            {t.kpi.weatherAlert}
-          </span>
+          <div className="flex items-center space-x-1.5">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+              {t.kpi.weatherAlert}
+            </span>
+            <span className="bg-sky-100 text-sky-800 text-[9px] font-extrabold px-1.5 py-0.5 rounded border border-sky-200 uppercase tracking-tighter">
+              IMD API LIVE
+            </span>
+          </div>
           <div className="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center">
             <CloudRain className="w-4 h-4" />
           </div>
