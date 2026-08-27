@@ -9,6 +9,7 @@ import RoadVulnerabilities from './components/RoadVulnerabilities';
 import CrowdsourcedDispatch from './components/CrowdsourcedDispatch';
 import NepalDamAlertBanner from './components/NepalDamAlertBanner';
 import AIPredictorPanel from './components/AIPredictorPanel';
+import LoginPage from './components/LoginPage';
 import { fetchImdRainfallData } from './services/imdWeatherService';
 import { subscribeLiveProductionPipeline } from './services/liveProductionPipelines';
 
@@ -34,6 +35,22 @@ import {
 } from './data/mockData';
 
 export default function App() {
+  // Authentication State
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('georisk_auth_user');
+      return saved ? JSON.parse(saved) : {
+        name: 'Aniket Pathak',
+        title: 'Lead AI Geotechnical Architect & Field Commander',
+        agency: 'BRO Project Swastik / NERDMA Command',
+        email: 'aniket.pathak@nerdma.gov.in',
+        clearance: 'Level 3 Top-Secret (All 8 NER States + Nepal Transboundary)'
+      };
+    } catch (e) {
+      return null;
+    }
+  });
+
   const [selectedZone, setSelectedZone] = useState(MONITORING_ZONES[0]);
   const [lang, setLang] = useState('en');
   const [isOffline, setIsOffline] = useState(false);
@@ -65,7 +82,7 @@ export default function App() {
 
   // 24/7 Live Government Production Pipeline Subscription (IMD + Sentinel-1 + GSI/BRO IoT)
   useEffect(() => {
-    if (isOffline) return;
+    if (isOffline || !selectedZone) return;
 
     const unsubscribe = subscribeLiveProductionPipeline(selectedZone, (payload) => {
       setLiveStreamPayload(payload);
@@ -73,7 +90,7 @@ export default function App() {
     });
 
     return () => unsubscribe();
-  }, [selectedZone, isOffline]);
+  }, [selectedZone.id, isOffline]);
 
   // Live IMD Weather Stream Sync Effect
   useEffect(() => {
@@ -131,6 +148,25 @@ export default function App() {
     setCitizenReports([newRep, ...citizenReports]);
   };
 
+  const handleLoginSuccess = (user) => {
+    setCurrentUser(user);
+    try {
+      localStorage.setItem('georisk_auth_user', JSON.stringify(user));
+    } catch (e) {}
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    try {
+      localStorage.removeItem('georisk_auth_user');
+    } catch (e) {}
+  };
+
+  // If officer not logged in, render Secure Login Page
+  if (!currentUser) {
+    return <LoginPage onLoginSuccess={handleLoginSuccess} />;
+  }
+
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col font-sans selection:bg-orange-200 selection:text-orange-900">
       {/* Toast Notification Banner */}
@@ -156,6 +192,8 @@ export default function App() {
         onFocusHighRiskMode={() => handleFocusHighRiskZone(HIGH_RISK_PRIORITY_ZONES[0])}
         onOpenIotTerminal={() => setIsIotTerminalOpen(true)}
         onOpenLiveGovGateway={() => setIsLiveGatewayOpen(true)}
+        currentUser={currentUser}
+        onLogout={handleLogout}
       />
 
       {/* Main Dashboard Layout Container */}
@@ -190,9 +228,9 @@ export default function App() {
         />
 
         {/* BAND 2: GEOSPATIAL & SECTORAL ANALYSIS (Grid View 2 Columns on desktop) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           {/* Panel A: GIS Leaflet Grid Viewer (7 cols) */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 flex flex-col h-full">
             <GISMapViewer
               selectedZone={selectedZone}
               telemetryPins={telemetryPins.filter(p => p.zoneId === selectedZone.id || true)}
@@ -206,7 +244,7 @@ export default function App() {
           </div>
 
           {/* Panel B: Sectoral Probabilities & Summary Table (5 cols) */}
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-5 flex flex-col h-full">
             <SectorStatistics
               selectedZone={selectedZone}
               slopeSectors={slopeSectors}

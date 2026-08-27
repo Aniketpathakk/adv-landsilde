@@ -105,9 +105,11 @@ export async function fetchCopernicusInSarDisplacement(zoneId, lat, lng) {
 export function subscribeLiveProductionPipeline(selectedZone, onUpdate) {
   liveSubscribers.push(onUpdate);
 
-  if (!livePipelineTimer) {
-    startPipelineCycle(selectedZone);
+  if (livePipelineTimer) {
+    clearInterval(livePipelineTimer);
+    livePipelineTimer = null;
   }
+  startPipelineCycle(selectedZone);
 
   return () => {
     liveSubscribers = liveSubscribers.filter(sub => sub !== onUpdate);
@@ -121,8 +123,10 @@ export function subscribeLiveProductionPipeline(selectedZone, onUpdate) {
 /**
  * Executes a single ingestion cycle combining all 3 live streams
  */
-async function startPipelineCycle(selectedZone) {
+function startPipelineCycle(selectedZone) {
   const runIngestion = async () => {
+    if (liveSubscribers.length === 0) return;
+
     const [lat, lng] = selectedZone?.center || [27.34, 88.61];
     const zoneId = selectedZone?.id || "gangtok";
 
@@ -165,10 +169,12 @@ async function startPipelineCycle(selectedZone) {
       aiPrediction
     };
 
-    liveSubscribers.forEach(fn => fn(livePayload));
+    liveSubscribers.forEach(fn => {
+      try { fn(livePayload); } catch (e) { console.error(e); }
+    });
   };
 
-  // Run immediately then poll every 6 seconds
-  runIngestion();
+  // Run asynchronously after first render frame, then poll every 6 seconds
+  setTimeout(runIngestion, 100);
   livePipelineTimer = setInterval(runIngestion, 6000);
 }

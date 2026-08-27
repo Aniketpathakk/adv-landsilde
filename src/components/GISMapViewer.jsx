@@ -439,7 +439,7 @@ export default function GISMapViewer({
 
   return (
     <div className={`georisk-card overflow-hidden flex flex-col relative transition-all duration-300 ${
-      isExpanded ? 'fixed inset-4 z-50 shadow-2xl h-[calc(100vh-2rem)]' : 'h-[500px]'
+      isExpanded ? 'fixed inset-4 z-50 shadow-2xl h-[calc(100vh-2rem)]' : 'h-full min-h-[530px]'
     }`}>
       {/* Map Control Bar Header */}
       <div className="bg-white border-b border-slate-200 px-4 py-2.5 flex flex-wrap items-center justify-between gap-2 z-10">

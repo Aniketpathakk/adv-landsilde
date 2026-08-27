@@ -11,7 +11,8 @@ import {
   Activity,
   Flame,
   Waves,
-  Terminal
+  Terminal,
+  Radio
 } from 'lucide-react';
 import { LANGUAGES, TRANSLATIONS } from '../data/mockData';
 
@@ -28,7 +29,9 @@ export default function Header({
   onForceSync,
   onFocusHighRiskMode,
   onOpenIotTerminal,
-  onOpenLiveGovGateway
+  onOpenLiveGovGateway,
+  currentUser,
+  onLogout
 }) {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
@@ -185,6 +188,31 @@ export default function Header({
               </>
             )}
           </button>
+
+          {/* Current User Officer Profile Badge & Logout */}
+          {currentUser && (
+            <div className="flex items-center space-x-2 bg-slate-50 border border-slate-200 rounded-lg p-1 pr-2 shadow-2xs">
+              <div className="w-7 h-7 rounded-md bg-orange-600 text-white font-extrabold text-[11px] flex items-center justify-center">
+                {currentUser.name.split(' ').map(n => n[0]).join('')}
+              </div>
+              <div className="text-left hidden sm:block">
+                <div className="text-xs font-extrabold text-slate-900 leading-tight flex items-center">
+                  <span>{currentUser.name}</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 ml-1.5"></span>
+                </div>
+                <div className="text-[10px] text-slate-500 leading-tight line-clamp-1">{currentUser.agency}</div>
+              </div>
+              {onLogout && (
+                <button
+                  onClick={onLogout}
+                  className="p-1 rounded hover:bg-slate-200 text-slate-500 hover:text-red-600 transition-colors text-[11px] font-bold cursor-pointer ml-1"
+                  title="Logout Session"
+                >
+                  Logout
+                </button>
+              )}
+            </div>
+          )}
 
           {/* Multilingual Switcher */}
           <div className="flex items-center bg-white border border-slate-200 rounded-lg px-2 py-1.5 shadow-2xs">
