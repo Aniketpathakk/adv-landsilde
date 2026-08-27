@@ -10,6 +10,7 @@ import CrowdsourcedDispatch from './components/CrowdsourcedDispatch';
 import NepalDamAlertBanner from './components/NepalDamAlertBanner';
 import AIPredictorPanel from './components/AIPredictorPanel';
 import { fetchImdRainfallData } from './services/imdWeatherService';
+import { subscribeLiveProductionPipeline } from './services/liveProductionPipelines';
 
 // Modals
 import BroadcastSMSModal from './components/modals/BroadcastSMSModal';
@@ -18,6 +19,7 @@ import DistrictAlertModal from './components/modals/DistrictAlertModal';
 import SdrfDispatchModal from './components/modals/SdrfDispatchModal';
 import NewReportModal from './components/modals/NewReportModal';
 import IotTerminalModal from './components/modals/IotTerminalModal';
+import LiveProductionGatewayModal from './components/modals/LiveProductionGatewayModal';
 
 // Mock Data
 import { 
@@ -48,6 +50,10 @@ export default function App() {
   const [citizenReports, setCitizenReports] = useState(INITIAL_CITIZEN_REPORTS);
   const [focusedSector, setFocusedSector] = useState(null);
 
+  // Live Production Ingestion State
+  const [liveStreamPayload, setLiveStreamPayload] = useState(null);
+  const [isLiveGatewayOpen, setIsLiveGatewayOpen] = useState(false);
+
   // Modals state
   const [isSmsModalOpen, setIsSmsModalOpen] = useState(false);
   const [inSarReport, setInSarReport] = useState(null);
@@ -56,6 +62,18 @@ export default function App() {
   const [isNewReportModalOpen, setIsNewReportModalOpen] = useState(false);
   const [isIotTerminalOpen, setIsIotTerminalOpen] = useState(false);
   const [syncToast, setSyncToast] = useState(null);
+
+  // 24/7 Live Government Production Pipeline Subscription (IMD + Sentinel-1 + GSI/BRO IoT)
+  useEffect(() => {
+    if (isOffline) return;
+
+    const unsubscribe = subscribeLiveProductionPipeline(selectedZone, (payload) => {
+      setLiveStreamPayload(payload);
+      setLastSyncTime(payload.timestamp);
+    });
+
+    return () => unsubscribe();
+  }, [selectedZone, isOffline]);
 
   // Live IMD Weather Stream Sync Effect
   useEffect(() => {
@@ -137,6 +155,7 @@ export default function App() {
         onForceSync={handleForceSync}
         onFocusHighRiskMode={() => handleFocusHighRiskZone(HIGH_RISK_PRIORITY_ZONES[0])}
         onOpenIotTerminal={() => setIsIotTerminalOpen(true)}
+        onOpenLiveGovGateway={() => setIsLiveGatewayOpen(true)}
       />
 
       {/* Main Dashboard Layout Container */}
@@ -307,6 +326,13 @@ export default function App() {
             setTimeout(() => setSyncToast(null), 3000);
           }
         }}
+      />
+
+      <LiveProductionGatewayModal
+        isOpen={isLiveGatewayOpen}
+        onClose={() => setIsLiveGatewayOpen(false)}
+        selectedZone={selectedZone}
+        liveStreamPayload={liveStreamPayload}
       />
     </div>
   );

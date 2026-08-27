@@ -27,7 +27,8 @@ export default function Header({
   lastSyncTime,
   onForceSync,
   onFocusHighRiskMode,
-  onOpenIotTerminal
+  onOpenIotTerminal,
+  onOpenLiveGovGateway
 }) {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
@@ -56,6 +57,15 @@ export default function Header({
           </span>
         </div>
         <div className="flex items-center space-x-4">
+          <button
+            onClick={onOpenLiveGovGateway}
+            className="flex items-center text-orange-400 hover:text-orange-300 font-semibold transition-colors cursor-pointer"
+            title="Open Live Government Production Gateway (IMD, Sentinel-1 InSAR, GSI/BRO IoT)"
+          >
+            <Radio className="w-3.5 h-3.5 mr-1 text-orange-400 animate-pulse" />
+            <span>24/7 Gov Streams (IMD &bull; InSAR &bull; IoT)</span>
+          </button>
+          <span className="text-slate-600">|</span>
           <button
             onClick={onOpenIotTerminal}
             className="flex items-center hover:text-emerald-300 transition-colors text-emerald-400 font-semibold cursor-pointer"
