@@ -12,7 +12,10 @@ import {
   Radio,
   FileCheck,
   Building2,
-  Compass
+  Compass,
+  AlertTriangle,
+  Flame,
+  Activity
 } from 'lucide-react';
 
 export default function LoginPage({ onLoginSuccess }) {
@@ -21,15 +24,17 @@ export default function LoginPage({ onLoginSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const NER_STATES = [
-    { name: "Arunachal Pradesh", code: "AR" },
-    { name: "Assam", code: "AS" },
-    { name: "Manipur", code: "MN" },
-    { name: "Meghalaya", code: "ML" },
-    { name: "Mizoram", code: "MZ" },
-    { name: "Nagaland", code: "NL" },
-    { name: "Sikkim", code: "SK" },
-    { name: "Tripura", code: "TR" }
+  const NORTH_NER_SECTORS = [
+    { name: "Arunachal (Sela Pass)", code: "AR", color: "#EF4444" },
+    { name: "Sikkim (Teesta Valley)", code: "SK", color: "#F97316" },
+    { name: "Assam (Dima Hasao)", code: "AS", color: "#F97316" },
+    { name: "Manipur (Tupul Cut)", code: "MN", color: "#EF4444" },
+    { name: "Mizoram (Aizawl Slope)", code: "MZ", color: "#F97316" },
+    { name: "Nagaland (NH-29)", code: "NL", color: "#F97316" },
+    { name: "Meghalaya (Shillong)", code: "ML", color: "#F97316" },
+    { name: "Tripura (Jampui)", code: "TR", color: "#10B981" },
+    { name: "Uttarakhand & HP", code: "UK/HP", color: "#F97316" },
+    { name: "J&K / Ladakh Arc", code: "JK", color: "#F97316" }
   ];
 
   const handleSubmit = (e) => {
@@ -43,7 +48,7 @@ export default function LoginPage({ onLoginSuccess }) {
         title: 'Lead AI Geotechnical Architect & Field Commander',
         agency: 'NERDMA Command / BRO Project Swastik',
         email: email,
-        clearance: 'Level 3 Top-Secret (All 8 NER States + Nepal Transboundary)'
+        clearance: 'Level 3 Top-Secret (All 8 NER States + North Indian Belt + Nepal Transboundary)'
       });
     }, 450);
   };
@@ -51,16 +56,75 @@ export default function LoginPage({ onLoginSuccess }) {
   return (
     <div className="min-h-screen relative flex items-center justify-center p-4 sm:p-6 lg:p-8 font-sans selection:bg-orange-200 selection:text-orange-900 overflow-hidden bg-slate-900">
       
-      {/* Background: User Provided Official Map of India with Highlighted NER & Northern Belt */}
+      {/* Background: User Provided Official Map of India */}
       <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-700 filter brightness-[0.88] contrast-[1.02]"
+        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-all duration-700 filter brightness-[0.88] contrast-[1.05]"
         style={{ backgroundImage: `url('/assets/india_map_bg.png')` }}
       >
-        {/* Soft Ambient Contrast Overlay to ensure map clarity + card contrast */}
-        <div className="absolute inset-0 bg-slate-950/25 backdrop-blur-[0.5px]" />
+        {/* Soft Ambient Contrast Overlay */}
+        <div className="absolute inset-0 bg-slate-950/20 backdrop-blur-[0.5px]" />
       </div>
 
-      {/* Foreground Login Card */}
+      {/* ========================================================================= */}
+      {/* GLOWING GEOSPATIAL HIGHLIGHTS ACROSS NORTH INDIA & NORTH-EASTERN REGION */}
+      {/* ========================================================================= */}
+      <div className="absolute inset-0 z-5 pointer-events-none overflow-hidden">
+        
+        {/* 1. North Indian Himalayan Arc Ambient Glow Spotlight (J&K, HP, Uttarakhand) */}
+        <div className="absolute top-[8%] left-[28%] w-[280px] h-[180px] rounded-full bg-amber-400/25 blur-3xl mix-blend-screen animate-pulse" />
+
+        {/* 2. North Eastern Region (NER) Vibrant Amber/Orange Glow Spotlight (8 States) */}
+        <div className="absolute top-[40%] right-[10%] w-[360px] h-[260px] rounded-full bg-orange-500/35 blur-3xl mix-blend-screen animate-pulse" />
+
+        {/* 3. Floating Live Telemetry Radar Beacon Pins over North & North-East Regions */}
+        
+        {/* North East: Sikkim & Teesta River Cut */}
+        <div className="absolute top-[52%] left-[70%] hidden lg:flex items-center space-x-1.5 bg-slate-900/90 text-white px-2.5 py-1 rounded-full border border-orange-500/60 shadow-xl text-[10px] font-mono font-bold animate-bounce">
+          <span className="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
+          <span>Sikkim (Teesta Hazard Grid)</span>
+        </div>
+
+        {/* North East: Arunachal Pradesh (Sela Pass & Tawang) */}
+        <div className="absolute top-[46%] right-[14%] hidden lg:flex items-center space-x-1.5 bg-slate-900/90 text-white px-2.5 py-1 rounded-full border border-red-500/70 shadow-xl text-[10px] font-mono font-bold animate-pulse">
+          <span className="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+          <span>Arunachal (Sela Pass Cut)</span>
+        </div>
+
+        {/* North East: Assam / Dima Hasao & Brahmaputra Basin */}
+        <div className="absolute top-[56%] right-[18%] hidden lg:flex items-center space-x-1.5 bg-slate-900/90 text-white px-2.5 py-1 rounded-full border border-orange-500/60 shadow-xl text-[10px] font-mono font-bold">
+          <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+          <span>Assam (Dima Hasao Corridor)</span>
+        </div>
+
+        {/* North East: Manipur (Tupul Railway Cut) */}
+        <div className="absolute top-[65%] right-[15%] hidden lg:flex items-center space-x-1.5 bg-slate-900/90 text-white px-2.5 py-1 rounded-full border border-red-500/70 shadow-xl text-[10px] font-mono font-bold animate-pulse">
+          <span className="w-2 h-2 rounded-full bg-red-500"></span>
+          <span>Manipur (Tupul Shear Zone)</span>
+        </div>
+
+        {/* North East: Mizoram (Aizawl Ridge Cut) */}
+        <div className="absolute top-[72%] right-[19%] hidden lg:flex items-center space-x-1.5 bg-slate-900/90 text-white px-2.5 py-1 rounded-full border border-orange-500/60 shadow-xl text-[10px] font-mono font-bold">
+          <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+          <span>Mizoram (Aizawl Sinking Slope)</span>
+        </div>
+
+        {/* North India: Srinagar & Kashmir Arc */}
+        <div className="absolute top-[16%] left-[30%] hidden lg:flex items-center space-x-1.5 bg-slate-900/90 text-white px-2.5 py-1 rounded-full border border-amber-400/60 shadow-xl text-[10px] font-mono font-bold">
+          <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+          <span>North Arc: J&K / Ladakh Ridge</span>
+        </div>
+
+        {/* Top Floating Banner: Active Monitoring Highlight */}
+        <div className="absolute top-6 left-1/2 -translate-x-1/2 hidden md:flex items-center space-x-2 bg-slate-900/90 text-white px-4 py-1.5 rounded-full border border-orange-500/50 shadow-2xl text-xs font-mono">
+          <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-ping"></span>
+          <span>🛰️ <strong className="text-orange-400">North India & 8 NER States</strong> Early Warning Telemetry Grid Active</span>
+        </div>
+
+      </div>
+
+      {/* ========================================================================= */}
+      {/* FOREGROUND: Simple, Elegant Government Login Card */}
+      {/* ========================================================================= */}
       <div className="w-full max-w-md z-10 relative animate-in fade-in zoom-in-95 duration-300">
         
         {/* Main Card */}
@@ -83,7 +147,7 @@ export default function LoginPage({ onLoginSuccess }) {
 
             <div className="mt-3 inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-orange-800 text-[11px] font-bold">
               <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
-              <span>8 NER States &bull; 24/7 AI Geotechnical Command</span>
+              <span>North India & 8 NER States &bull; 24/7 AI Geotechnical Command</span>
             </div>
           </div>
 
@@ -159,7 +223,7 @@ export default function LoginPage({ onLoginSuccess }) {
               className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-md text-xs font-extrabold text-white bg-gradient-to-r from-red-600 via-orange-600 to-amber-600 hover:from-red-700 hover:to-amber-700 transition-all cursor-pointer disabled:opacity-50 mt-2"
             >
               {isLoading ? (
-                <span>Accessing NER Geotechnical Command...</span>
+                <span>Accessing Geotechnical Command...</span>
               ) : (
                 <>
                   <span>Enter Geotechnical Command Center</span>
@@ -169,18 +233,19 @@ export default function LoginPage({ onLoginSuccess }) {
             </button>
           </form>
 
-          {/* 8 NER States Coverage Badge Strip */}
+          {/* Active Highlighted Sectors Strip */}
           <div className="mt-6 pt-4 border-t border-slate-100">
             <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 text-center">
-              Active Monitoring Coverage (8 NER States):
+              Active Monitored Sectors (North India & 8 NER States):
             </div>
             <div className="flex flex-wrap items-center justify-center gap-1.5">
-              {NER_STATES.map((s) => (
+              {NORTH_NER_SECTORS.map((s) => (
                 <span 
                   key={s.code}
-                  className="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-slate-700 text-[10px] font-mono font-bold"
+                  className="px-2 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-slate-700 text-[10px] font-mono font-bold flex items-center"
                   title={s.name}
                 >
+                  <span className="w-1.5 h-1.5 rounded-full mr-1" style={{ backgroundColor: s.color }}></span>
                   {s.code}: {s.name.split(' ')[0]}
                 </span>
               ))}
@@ -202,7 +267,7 @@ export default function LoginPage({ onLoginSuccess }) {
         </div>
 
         {/* Footer Attribution */}
-        <div className="mt-4 text-center text-xs text-white/90 font-medium drop-shadow-md">
+        <div className="mt-4 text-center text-xs text-white/95 font-medium drop-shadow-md">
           GeoRisk Sentinel &bull; Developed by{' '}
           <a
             href="https://in.linkedin.com/in/aniiketpathak"
