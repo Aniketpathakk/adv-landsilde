@@ -9,7 +9,6 @@ import RoadVulnerabilities from './components/RoadVulnerabilities';
 import CrowdsourcedDispatch from './components/CrowdsourcedDispatch';
 import NepalDamAlertBanner from './components/NepalDamAlertBanner';
 import AIPredictorPanel from './components/AIPredictorPanel';
-import LoginPage from './components/LoginPage';
 import { fetchImdRainfallData } from './services/imdWeatherService';
 import { subscribeLiveProductionPipeline } from './services/liveProductionPipelines';
 
@@ -35,14 +34,12 @@ import {
 } from './data/mockData';
 
 export default function App() {
-  // Authentication State (Shows Login Page first if not authenticated)
-  const [currentUser, setCurrentUser] = useState(() => {
-    try {
-      const saved = localStorage.getItem('georisk_auth_user');
-      return saved ? JSON.parse(saved) : null;
-    } catch (e) {
-      return null;
-    }
+  // Active Officer Profile
+  const [currentUser] = useState({
+    name: 'Aniket Pathak',
+    title: 'Lead AI Geotechnical Architect & Field Commander',
+    agency: 'NERDMA Command / BRO Project Swastik',
+    email: 'aniket.pathak@nerdma.gov.in'
   });
 
   const [selectedZone, setSelectedZone] = useState(MONITORING_ZONES[0]);
@@ -141,25 +138,6 @@ export default function App() {
   const handleAddCitizenReport = (newRep) => {
     setCitizenReports([newRep, ...citizenReports]);
   };
-
-  const handleLoginSuccess = (user) => {
-    setCurrentUser(user);
-    try {
-      localStorage.setItem('georisk_auth_user', JSON.stringify(user));
-    } catch (e) {}
-  };
-
-  const handleLogout = () => {
-    setCurrentUser(null);
-    try {
-      localStorage.removeItem('georisk_auth_user');
-    } catch (e) {}
-  };
-
-  // If officer not logged in, render Secure Login Page
-  if (!currentUser) {
-    return <LoginPage onLoginSuccess={handleLoginSuccess} />;
-  }
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 flex flex-col font-sans selection:bg-orange-200 selection:text-orange-900">

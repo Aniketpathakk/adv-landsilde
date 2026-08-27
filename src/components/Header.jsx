@@ -189,9 +189,9 @@ export default function Header({
             )}
           </button>
 
-          {/* Current User Officer Profile Badge & Logout */}
+          {/* Current User Officer Profile Badge */}
           {currentUser && (
-            <div className="flex items-center space-x-2 bg-slate-50 border border-slate-200 rounded-lg p-1 pr-2 shadow-2xs">
+            <div className="flex items-center space-x-2 bg-slate-50 border border-slate-200 rounded-lg p-1 pr-2.5 shadow-2xs">
               <div className="w-7 h-7 rounded-md bg-orange-600 text-white font-extrabold text-[11px] flex items-center justify-center">
                 {currentUser.name.split(' ').map(n => n[0]).join('')}
               </div>
@@ -202,15 +202,6 @@ export default function Header({
                 </div>
                 <div className="text-[10px] text-slate-500 leading-tight line-clamp-1">{currentUser.agency}</div>
               </div>
-              {onLogout && (
-                <button
-                  onClick={onLogout}
-                  className="p-1 rounded hover:bg-slate-200 text-slate-500 hover:text-red-600 transition-colors text-[11px] font-bold cursor-pointer ml-1"
-                  title="Logout Session"
-                >
-                  Logout
-                </button>
-              )}
             </div>
           )}
 
