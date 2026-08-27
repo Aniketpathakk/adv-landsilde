@@ -504,7 +504,7 @@ export const PRECISE_HIGHWAY_CORRIDORS = {
       agency: "Nepal Electricity Authority & Disaster Taskforce",
       lengthKm: "18.2 km monitored",
       coordinates: [
-        [27.940, 95.900],
+        [27.940, 85.900],
         [27.948, 85.915],
         [27.952, 85.922],
         [27.958, 85.932],

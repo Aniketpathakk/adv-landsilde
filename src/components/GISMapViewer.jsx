@@ -73,7 +73,7 @@ export default function GISMapViewer({
 
   const [activeBasemap, setActiveBasemap] = useState('street');
   const [showHeatmap, setShowHeatmap] = useState(true);
-  const [showHighways, setShowHighways] = useState(true);
+  const [showHighways, setShowHighways] = useState(false);
   const [showTelemetry, setShowTelemetry] = useState(true);
   const [showCitizenReports, setShowCitizenReports] = useState(true);
   const [showHighRiskPolygons, setShowHighRiskPolygons] = useState(true);
@@ -230,65 +230,90 @@ export default function GISMapViewer({
       });
     }
 
-    // 2. High-Precision National Highways & Dual-Casing GIS Vectors
+    // 2. National Highway Hazard Checkpoints & Active Road Hazard Alerts
     if (showHighways && roadLines && roadLines.length > 0) {
       roadLines.forEach((road) => {
-        const status = road.status || (road.highwayType === 'trunk' ? 'One-Lane Restriction' : 'Passable');
-        const color = status.includes('Blocked') || status.includes('Catastrophic')
-          ? '#EF4444' 
-          : status.includes('One-Lane') || status.includes('High Alert') || status.includes('Watch')
-            ? '#F97316' 
-            : '#10B981';
-        
+        const status = road.status || 'Passable';
         const isBlocked = status.includes('Blocked') || status.includes('Catastrophic');
+        const color = isBlocked ? '#EF4444' : status.includes('One-Lane') || status.includes('Watch') ? '#F97316' : '#10B981';
 
-        // Layer 1: Contrast Under-casing Polyline (Outline)
-        const casingPolyline = L.polyline(road.coordinates, {
-          color: '#0f172a',
-          weight: 6.5,
-          opacity: 0.85,
-          lineCap: 'round',
-          lineJoin: 'round'
-        });
-        group.addLayer(casingPolyline);
+        // Draw smooth polyline if coordinates array exists and has valid bounds
+        if (road.coordinates && road.coordinates.length > 1) {
+          const polyline = L.polyline(road.coordinates, {
+            color: color,
+            weight: 3.5,
+            dashArray: isBlocked ? '6, 6' : null,
+            opacity: 0.85,
+            lineCap: 'round',
+            lineJoin: 'round'
+          });
 
-        // Layer 2: Core Active Status Polyline
-        const corePolyline = L.polyline(road.coordinates, {
-          color: color,
-          weight: 4,
-          dashArray: isBlocked ? '8, 8' : null,
-          opacity: 1.0,
-          lineCap: 'round',
-          lineJoin: 'round'
-        });
-
-        corePolyline.bindPopup(`
-          <div style="font-family: sans-serif; padding: 6px; max-width: 270px;">
-            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-              <span style="background: #0f172a; color: #f8fafc; padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10px; font-family: monospace; letter-spacing: 0.5px;">
-                ${road.ref || 'CORRIDOR'}
-              </span>
-              <span style="font-size: 10px; color: #64748b; font-weight: 600;">${road.type || 'National Highway'}</span>
-            </div>
-            
-            <div style="font-weight: 800; color: #0f172a; font-size: 12.5px; line-height: 1.3; margin-bottom: 4px;">
-              ${road.name}
-            </div>
-
-            <div style="background: #f8fafc; padding: 6px 8px; border-radius: 6px; border: 1px solid #e2e8f0; margin-bottom: 4px;">
-              <div style="font-size: 11px; color: #334155; margin-bottom: 2px;">
-                Passability: <strong style="color: ${color}; text-transform: uppercase;">${status}</strong>
+          polyline.bindPopup(`
+            <div style="font-family: sans-serif; padding: 6px; max-width: 260px;">
+              <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                <span style="background: #0f172a; color: #f8fafc; padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 10px; font-family: monospace;">
+                  ${road.ref || 'HIGHWAY'}
+                </span>
+                <span style="font-size: 10px; color: #64748b; font-weight: 600;">${road.type || 'Corridor'}</span>
               </div>
-              ${road.displacementRate ? `<div style="font-size: 11px; color: #475569;">Slip Velocity: <strong style="color: #0f172a;">${road.displacementRate}</strong></div>` : ''}
-              ${road.lengthKm ? `<div style="font-size: 10.5px; color: #64748b;">Monitored Span: <strong>${road.lengthKm}</strong></div>` : ''}
+              
+              <div style="font-weight: 800; color: #0f172a; font-size: 12px; margin-bottom: 4px;">
+                ${road.name}
+              </div>
+
+              <div style="background: #f8fafc; padding: 5px 8px; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 11px;">
+                <div>Status: <strong style="color: ${color}; text-transform: uppercase;">${status}</strong></div>
+                ${road.displacementRate ? `<div style="color: #475569; margin-top: 2px;">Velocity: <strong>${road.displacementRate}</strong></div>` : ''}
+              </div>
+
+              ${road.detour ? `<div style="font-size: 10px; color: #d97706; background: #fffbeb; padding: 4px 6px; border-radius: 4px; border: 1px solid #fde68a; margin-top: 4px;">⚠️ Detour: ${road.detour}</div>` : ''}
             </div>
+          `);
 
-            ${road.agency ? `<div style="font-size: 10px; color: #64748b; margin-bottom: 2px;">Authority: <strong>${road.agency}</strong></div>` : ''}
-            ${road.detour ? `<div style="font-size: 10px; color: #d97706; background: #fffbeb; padding: 4px 6px; border-radius: 4px; border: 1px solid #fde68a; margin-top: 4px; line-height: 1.3;">⚠️ Detour: ${road.detour}</div>` : ''}
-          </div>
-        `);
+          group.addLayer(polyline);
+        }
 
-        group.addLayer(corePolyline);
+        // Render pinpoint Road Hazard Station marker at mid-point of the corridor
+        if (road.coordinates && road.coordinates.length > 0) {
+          const midPoint = road.coordinates[Math.floor(road.coordinates.length / 2)];
+          if (midPoint && midPoint.length === 2) {
+            const roadIconHtml = `
+              <div style="
+                background: ${isBlocked ? '#EF4444' : '#F97316'};
+                color: #FFFFFF;
+                border: 2px solid #FFFFFF;
+                border-radius: 9999px;
+                width: 26px;
+                height: 26px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 11px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+                font-weight: 800;
+              " title="${road.name} (${status})">
+                🛣️
+              </div>
+            `;
+
+            const roadMarkerIcon = L.divIcon({
+              html: roadIconHtml,
+              className: '',
+              iconSize: [26, 26],
+              iconAnchor: [13, 13]
+            });
+
+            const marker = L.marker(midPoint, { icon: roadMarkerIcon });
+            marker.bindPopup(`
+              <div style="font-family: sans-serif; padding: 4px; max-width: 220px;">
+                <div style="font-size: 10px; font-weight: 700; color: ${color}; text-transform: uppercase;">Road Hazard Station</div>
+                <div style="font-weight: 700; font-size: 12px; color: #0f172a; margin-top: 2px;">${road.name}</div>
+                <div style="font-size: 11px; color: #475569; margin-top: 2px;">Status: <strong style="color: ${color}">${status}</strong></div>
+              </div>
+            `);
+            group.addLayer(marker);
+          }
+        }
       });
     }
 
