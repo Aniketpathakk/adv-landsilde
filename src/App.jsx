@@ -35,17 +35,11 @@ import {
 } from './data/mockData';
 
 export default function App() {
-  // Authentication State
+  // Authentication State (Shows Login Page first if not authenticated)
   const [currentUser, setCurrentUser] = useState(() => {
     try {
       const saved = localStorage.getItem('georisk_auth_user');
-      return saved ? JSON.parse(saved) : {
-        name: 'Aniket Pathak',
-        title: 'Lead AI Geotechnical Architect & Field Commander',
-        agency: 'BRO Project Swastik / NERDMA Command',
-        email: 'aniket.pathak@nerdma.gov.in',
-        clearance: 'Level 3 Top-Secret (All 8 NER States + Nepal Transboundary)'
-      };
+      return saved ? JSON.parse(saved) : null;
     } catch (e) {
       return null;
     }
